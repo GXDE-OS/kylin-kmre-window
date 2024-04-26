@@ -87,7 +87,7 @@ bool AppSettings::isAppSupportDDS(const QString &pkgName)
     if (mIsHostSupportDDS) {
         support = mSupportDDSAppList.contains(kmre::utils::getRealPkgName(pkgName));
 
-        if (isMultiperEnabled() && isAppMultiperEnabled(pkgName)) {//平行界面使能时关闭动态分辨率
+        if (isAppMultiperEnabled(pkgName)) {//平行界面使能时关闭动态分辨率
             support = false;
         }
     }
@@ -116,10 +116,13 @@ bool AppSettings::isAppSupportMultiper(const QString &pkgName)
 bool AppSettings::isAppMultiperEnabled(const QString &pkgName)
 {
     bool enable = false;
-    kmre::lgm lk(mSupportMultiAppMapLk);
 
-    if (mSupportMultiAppMap.contains(pkgName)) {
-        enable = mSupportMultiAppMap[pkgName];
+    if (isMultiperEnabled()) {
+        kmre::lgm lk(mSupportMultiAppMapLk);
+
+        if (mSupportMultiAppMap.contains(pkgName)) {
+            enable = mSupportMultiAppMap[pkgName];
+        }
     }
 
     syslog(LOG_INFO, "[%s] App '%s' Multiper %s!", __func__, pkgName.toStdString().c_str(), enable ? "enabled" : "disabled");

@@ -1100,8 +1100,10 @@ void DisplayManager::getDisplaySizeForNormalScreen(int innerWidth, int innerHeig
     int perfectMaxHeight = screenSize.height() * 0.75;
     int perfectMaxWidth = defaultSize.width() * (perfectMaxHeight / static_cast<double>(defaultSize.height()));
 
-    syslog(LOG_DEBUG, "[DisplayManager][%s] innerWidth = %d, innerHeight = %d, default width = %d, default height = %d, maxWidth = %d, maxHeight = %d", 
-        __func__, innerWidth, innerHeight, defaultSize.width(), defaultSize.height(), maxWidth, maxHeight);
+    syslog(LOG_DEBUG, "[DisplayManager][%s] innerWidth = %d, innerHeight = %d, default width = %d, default height = %d, "
+            "maxWidth = %d, maxHeight = %d, screenWidth = %d, screenHeight = %d, mIsMultiDisplayEnabled = %d, lastSize = %d", 
+        __func__, innerWidth, innerHeight, defaultSize.width(), defaultSize.height(), 
+        maxWidth, maxHeight, screenSize.width(), screenSize.height(), mIsMultiDisplayEnabled, lastSize);
 
     if ((defaultSize.width() <= maxWidth) && (defaultSize.height() <= maxHeight)) {
         if (defaultSize.height() > perfectMaxHeight) {
