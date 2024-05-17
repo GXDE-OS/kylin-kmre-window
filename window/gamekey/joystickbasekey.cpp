@@ -52,6 +52,7 @@ JoystickBaseKey::~JoystickBaseKey(){
     if (opacityEffect) {
         delete opacityEffect;
     }
+    setParent(nullptr);//将该子对象从父对象中移除，防止手动提前删除该子对象后，父对象析构时会再次析构该子对象
 }
 
 void JoystickBaseKey::showKey(bool show){
