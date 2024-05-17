@@ -53,7 +53,8 @@ JoystickManager::JoystickManager(KmreWindow* window)
     mValidRect = getGameKeyValidRect();
 }
 
-JoystickManager::~JoystickManager(){
+JoystickManager::~JoystickManager()
+{
     removeJoystickKeys();
     removeKeyMouseKeys();
     if(shadeShell){
@@ -1091,9 +1092,15 @@ void JoystickManager::getMainWidgetDisplaySize(int &displayWidth, int &displayHe
 }
 
 void JoystickManager::getMainWidgetInitialSize(int &initialWidth, int &initialHeight){
-    DisplayManager *displayManager = mMainWindow->getDisplayManager();
-    initialWidth = displayManager->getInitialWidth();
-    initialHeight = displayManager->getInitialHeight();
+    auto size = mMainWindow->getDisplayManager()->getMainWidgetInitialSize();
+    auto initOrientation = mMainWindow->getDisplayManager()->getInitialOrientation();
+
+    initialWidth = (initOrientation == Qt::PortraitOrientation) ? size.width() : size.height();
+    initialHeight = (initOrientation == Qt::PortraitOrientation) ? size.height() : size.width();
+
+    //auto isLandscape = mMainWindow->getDisplayManager()->isCurrentLandscapeOrientation();
+    //syslog(LOG_DEBUG, "isLandscape: %d, initOrientation = %d", isLandscape, initOrientation);
+    //syslog(LOG_DEBUG, "initialWidth: %d, initialHeight: %d", initialWidth, initialHeight);
 }
 
 void JoystickManager::getMainWidgetSize(int &displayWidth, int &displayHeight, int &initialWidth, int &initialHeight){
