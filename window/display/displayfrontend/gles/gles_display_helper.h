@@ -53,6 +53,7 @@ private:
     std::shared_ptr<GLESDisplayUtils> mDisplayUtils;
     int mImageWidth;
     int mImageHeight;
+    const unsigned long mWid;
 };
 
 #endif // GLES_DISPLAY_HELPER_H

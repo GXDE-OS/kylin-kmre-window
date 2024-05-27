@@ -29,6 +29,7 @@ GLESDisplayHelper::GLESDisplayHelper(DisplayWidget* widget, QObject *parent)
     : DisplayHelper(widget, parent)
     , mCurrentOrientation(-1)
     , mTryInitCounter(0)
+    , mWid(widget->winId()) // fixed bug#228265, the 'winId' must get at this moment
 {
     mDisplayUtils = std::make_shared<GLESDisplayUtils>();
 }
@@ -41,7 +42,7 @@ GLESDisplayHelper::~GLESDisplayHelper()
 void GLESDisplayHelper::initDisplay()
 {
     if (mTryInitCounter < 3) {
-        if (mDisplayUtils->initGles(mWidget->winId())) {
+        if (mDisplayUtils->initGles(mWid)) {// fixed bug#228265, will crash if getting 'winId' at this moment on some platform, why ?
             syslog(LOG_DEBUG, "[%s] Initialize GLES succeed.", __func__);
             mIsReadyForRender = true;
         }
