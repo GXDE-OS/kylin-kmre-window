@@ -1119,8 +1119,8 @@ void DisplayManager::getDisplaySizeForNormalScreen(int innerWidth, int innerHeig
             int tmpWidth = screenSize.width() - (MOUSE_MARGINS * 2);
             int tmpHeight = screenSize.height() - titlebarHeight - MOUSE_MARGINS;
 
-            if ((mAppSizeConfig.width > 0) && (mAppSizeConfig.width <= tmpWidth) &&
-                (mAppSizeConfig.height > 0) && (mAppSizeConfig.height <= tmpHeight)) {
+            if ((mAppSizeConfig.width > outerWidth) && (mAppSizeConfig.width <= tmpWidth) &&
+                (mAppSizeConfig.height > outerHeight) && (mAppSizeConfig.height <= tmpHeight)) {
                 
                 bool expectedRotation = outerWidth >= outerHeight;
                 bool lastRotation = mAppSizeConfig.width >= mAppSizeConfig.height;
