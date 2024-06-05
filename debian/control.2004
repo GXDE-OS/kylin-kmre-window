@@ -8,6 +8,7 @@ Build-Depends: debhelper (>=9),
                qtbase5-dev (>= 5.1),
                qtbase5-private-dev,
                qt5-qmake,
+               qt5-default,
                qttools5-dev-tools,
                qtwebengine5-dev,
                libqt5x11extras5-dev,
@@ -59,8 +60,8 @@ Build-Depends: debhelper (>=9),
                libepoxy-dev,
                libsystemd-dev,
                libqt5waylandclient5-dev,
-               qtwayland5-private-dev,
 
+# qtwayland5-private-dev for openkylin and ubuntu-22.04
 
 Standards-Version: 3.9.6
 Homepage: https://www.kylinos.cn
