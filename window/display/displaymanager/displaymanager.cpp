@@ -1118,16 +1118,22 @@ void DisplayManager::getDisplaySizeForNormalScreen(int innerWidth, int innerHeig
         if ((!mIsMultiDisplayEnabled) && lastSize) {
             int tmpWidth = screenSize.width() - (MOUSE_MARGINS * 2);
             int tmpHeight = screenSize.height() - titlebarHeight - MOUSE_MARGINS;
+            //syslog(LOG_DEBUG, "[DisplayManager][%s] tmpWidth = %d, tmpHeight = %d, outerWidth = %d, outerHeight = %d", 
+            //    __func__, tmpWidth, tmpHeight, outerWidth, outerHeight);
 
-            if ((mAppSizeConfig.width > outerWidth) && (mAppSizeConfig.width <= tmpWidth) &&
-                (mAppSizeConfig.height > outerHeight) && (mAppSizeConfig.height <= tmpHeight)) {
+            if ((mAppSizeConfig.width >= outerWidth) && (mAppSizeConfig.width <= tmpWidth) &&
+                (mAppSizeConfig.height >= outerHeight) && (mAppSizeConfig.height <= tmpHeight)) {
                 
                 bool expectedRotation = outerWidth >= outerHeight;
                 bool lastRotation = mAppSizeConfig.width >= mAppSizeConfig.height;
 
+                //syslog(LOG_DEBUG, "[DisplayManager][%s] mIsDynamicDisplaySizeSupported = %d, expectedRotation = %d, lastRotation = %d", 
+                //    __func__, mIsDynamicDisplaySizeSupported, expectedRotation, lastRotation);
                 if (mIsDynamicDisplaySizeSupported || (expectedRotation == lastRotation)) {
                     outerWidth = mAppSizeConfig.width;
                     outerHeight = mAppSizeConfig.height;
+                    syslog(LOG_DEBUG, "[DisplayManager][%s] set config size: outerWidth = %d, outerHeight = %d", 
+                        __func__, outerWidth, outerHeight);
                 }
             }
         }
