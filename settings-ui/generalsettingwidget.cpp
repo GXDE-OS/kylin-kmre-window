@@ -439,39 +439,14 @@ void GeneralSettingWidget::updateCameraDevices()
 
 QString GeneralSettingWidget::getKmreVersion()
 {
-    QString version;
-    QStringList options;
-
-    QString confName = "/usr/share/kmre/kmre-update.conf";
-    if (QFile::exists(confName)) {
-        QSettings settings(confName, QSettings::IniFormat);
-        settings.setIniCodec("UTF-8");
-        settings.beginGroup("update");
-        version = settings.value("update_revision", QString("")).toString();
-        settings.endGroup();
-    }
-
-    if (!version.isEmpty() && !version.isNull()) {
-        return QString("2.0-%1").arg(version);
-    }
-
-    //__mips__  __sw_64__
-#ifdef __x86_64__
-    options << "-W" << "-f=${Version}\n" << "kylin-kmre-image-data-x64";
-#elif __aarch64__
-    options << "-W" << "-f=${Version}\n" << "kylin-kmre-image-data";
-#endif
-
-    if (options.length() > 0) {
-        QByteArray data;
-        QProcess process;
-        process.start("dpkg-query", options);
-        process.waitForFinished();
-        process.waitForReadyRead();
-        data = process.readAllStandardOutput();
-        version = QString(data);
-        version.replace(QString("\n"), QString(""));
-        return version;
+    QString kmreVersion = "V";
+    // 获取kmre 虚包版本信息
+    QString cmd = QString("dpkg -s kmre | grep Version | awk '{print $2}'");
+    QString version = kmre::utils::execCmd(cmd).trimmed();
+    qDebug() << "Get KMRE version:" << version;
+    if (!version.isEmpty()) {
+        kmreVersion.append(version);
+        return kmreVersion;
     }
 
     return qApp->applicationVersion();
