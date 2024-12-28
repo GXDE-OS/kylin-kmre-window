@@ -22,5 +22,22 @@ SUBDIRS += \
     startapp \
     settings-daemon \
     settings-ui \
-    sensor \
-    gps
+    sensor
+
+message("Builld Architecture:" $$QT_ARCH)
+contains(QT_ARCH, i386) {
+    message("Enable gps module")
+    SUBDIRS += gps
+}
+contains(QT_ARCH, x86_64) {
+    message("Enable gps module")
+    SUBDIRS += gps
+}
+contains(QT_ARCH, armhf) {
+    message("Enable gps module")
+    SUBDIRS += gps
+}
+contains(QT_ARCH, arm64) {
+    message("Enable gps module")
+    SUBDIRS += gps
+}

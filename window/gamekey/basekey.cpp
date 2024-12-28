@@ -49,13 +49,13 @@ bool OverlayButton::eventFilter(QObject *obj, QEvent *event)
         //syslog(LOG_DEBUG, "[OverlayButton] pos: x = %d, y = %d", pos.x(), pos.y());
         if ((pos.x() >= 0) && (pos.y() >= 0)) {
             //syslog(LOG_DEBUG, "[OverlayButton] Send mouse event to main display");
-#if defined(KYLIN_V10)
+/*#if defined(KYLIN_V10)
             QMouseEvent* me = new QMouseEvent(event->type(), pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
             mGameKeyManager->sendEventToMainDisplay(me);
-#else
+#else*/
             mouseEvent->setLocalPos(pos);
             mMainWindow->getGameKeyManager()->sendEventToMainDisplay(mouseEvent);
-#endif
+//#endif
             event->accept();
             return true;
         }
