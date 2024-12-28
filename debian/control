@@ -65,7 +65,7 @@ Build-Depends: debhelper (>=9),
 Standards-Version: 3.9.6
 Homepage: https://www.kylinos.cn
 Package: kylin-kmre-window
-Architecture: arm64 amd64
+Architecture: any
 Depends: ${shlibs:Depends},
          ${misc:Depends},
          kylin-kmre-display-control (>= 2.4.1),
