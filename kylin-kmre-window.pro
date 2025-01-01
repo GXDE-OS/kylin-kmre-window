@@ -18,11 +18,13 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
+    uengine-fake \
     window \
     startapp \
     settings-daemon \
     settings-ui \
-    sensor
+    sensor \
+#    uengine-fake
 
 message("Builld Architecture:" $$QT_ARCH)
 contains(QT_ARCH, i386) {

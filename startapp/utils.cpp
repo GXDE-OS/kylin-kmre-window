@@ -36,6 +36,7 @@
 #include <QProcessEnvironment>
 #include <QSettings>
 #include <QDir>
+#include <QThread>
 #include <QDomDocument>
 
 #include <iostream>
@@ -576,3 +577,161 @@ QString Utils::getContainerName()
     struct str_info info = UserInfo::getuserinfo();
     return "kmre-" + QString::number(info.uid_info) + "-" + info.name_info;
 }
+
+void Utils::installUninstalledApk()
+{
+    QFile installedFile("/var/lib/kmre/" + Utils::getContainerName() + "/data/local/tmp/installed.json");
+    if (!installedFile.exists()) {
+        return;
+    }
+    // 读取已安装 apk
+    installedFile.open(QFile::ReadOnly);
+    if (!installedFile.isOpen()) {
+        //qDebug() << "Failed to open file " + installedFilePath + ".";
+        return;
+    }
+
+    QByteArray json = installedFile.readAll();
+    installedFile.close();
+
+    //qDebug() << json;
+    QJsonParseError err;
+    QJsonDocument doc = QJsonDocument::fromJson(json, &err);
+    if (err.error != QJsonParseError::NoError) {
+        //qDebug() << "Failed to parse file " + installedFilePath + ".";
+        return;
+    }
+
+    QJsonObject obj = doc.object();
+
+    if (!obj.contains(QStringLiteral("data"))) {
+        //qDebug() << "Json doesn't have data array.";
+        return;
+    }
+
+    QJsonArray dataArray = obj.value("data").toArray();
+    //qDebug() << dataArray.isEmpty();
+    //qDebug() << dataArray.size();
+    //qDebug() << dataArray;
+    if (dataArray.isEmpty() || dataArray.size() <= 0) {
+        //qDebug() << "Data array doesn't have any item.";
+        return;
+    }
+    QStringList isInstalledApk;
+    for (auto i : dataArray) {
+        isInstalledApk << i.toObject().value("appname").toString();
+    }
+    QDir apkPath("/opt/kmre/");
+    QFileInfoList apkList = apkPath.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+    for (auto fileInfo : apkList) {
+        QString fileName = fileInfo.fileName();
+        QString pkgName = fileName.mid(0, fileName.count() - 4);
+        qDebug() << fileInfo.absoluteFilePath() << pkgName;
+        if (fileName.endsWith(".apk") && !isInstalledApk.contains(pkgName)) {
+            Utils::installApp(fileInfo.absoluteFilePath(), pkgName, "");
+        }
+    }
+}
+
+/***********************************************************
+   Function:       installApp
+   Description:    安装apk
+   Calls:
+   Called By:
+   Input:
+   Output:
+   Return:
+   Others:
+ ************************************************************/
+bool Utils::installApp(const QString &fileName, const QString &pkgName, const QString &application)
+{
+//    m_iconFilePath.clear();
+    QThread::sleep(1);
+    if (fileName.isEmpty()) {
+        //emit this->installFinished(fileName, pkgName, false);
+        return 1;
+    }
+
+    QString libPath = "/usr/lib/libkmre.so";
+    if (!QFile::exists(libPath)) {
+        //emit this->installFinished(fileName, pkgName, false);
+        return 1;
+    }
+
+    void *module_handle;
+    char *module_error;
+    module_handle = dlopen(libPath.toStdString().c_str(), RTLD_LAZY);
+    if (!module_handle) {
+        //emit this->installFinished(fileName, pkgName, false);
+        return 1;
+    }
+    bool (*install_app)(char *filename, char *appname, char *pkgname);
+    install_app = (bool(*)(char *, char*, char *))dlsym(module_handle, "install_app");
+    if ((module_error = dlerror()) != NULL) {
+        dlclose(module_handle);
+        //emit this->installFinished(fileName, pkgName, false);
+        return 1;
+    }
+    //qDebug() << "BackendWorker::installApp " << fileName;
+    //filename:apk名称，如 com.tencent.mm_8.0.0.apk
+    //appname:应用名,如 微信
+    //pkgname:包名，如 com.tencent.mm
+    //qDebug() << "###install_app fileName:" << fileName <<  ",pkgName:" << pkgName << ", application:" << application;
+    bool nRes = install_app(const_cast<char *>(fileName.toStdString().c_str()), const_cast<char *>("test"), pkgName.isEmpty() ? const_cast<char *>("test") : const_cast<char *>(pkgName.toStdString().c_str()));
+    bool isFailed = false;
+    if (nRes) {
+        //qDebug() << "BackendWorker::installApp success pkgName:" << pkgName;
+        QThread::sleep(1);
+        //this->updateDekstopAndIcon(pkgName, application, applicationZh, version);
+        //emit this->installFinished(fileName, pkgName, true);
+        isFailed = false;
+    }
+    else {
+        qDebug() << "Utils::installApp failed: " << pkgName;
+        //emit this->installFinished(fileName, pkgName, false);
+        isFailed = true;
+    }
+    dlclose(module_handle);
+    return isFailed;
+}
+//void Utils::installApp(const QString &fileName, const QString &pkgName, const QString &application, const QString &applicationZh)
+//{
+//    QThread::sleep(2);
+//    if (fileName.isEmpty() || pkgName.isEmpty()) {
+//        emit this->installFinished(fileName, false);
+//        return;
+//    }
+//    //qDebug() << "BackendWorker::installApp" << fileName << pkgName << application << applicationZh;
+
+//    QString libPath = "/usr/lib/libkmre.so";
+//    if (!QFile::exists(libPath)) {
+//        emit this->installFinished(fileName, false);
+//        return;
+//    }
+
+//    void *module_handle;
+//    char *module_error;
+//    module_handle = dlopen(libPath.toStdString().c_str(), RTLD_LAZY);
+//    if (!module_handle) {
+//        emit this->installFinished(fileName, false);
+//        return;
+//    }
+//    bool (*install_app)(char *filename, char *appname, char *pkgname);
+//    install_app = (bool(*)(char *, char*, char *))dlsym(module_handle, "install_app");
+//    if ((module_error = dlerror()) != NULL) {
+//        dlclose(module_handle);
+//        emit this->installFinished(fileName, false);
+//        return;
+//    }
+//    qDebug() << "BackendWorker::installApp " << fileName;
+//    bool nRes = install_app(fileName.toStdString().c_str(), pkgName.toStdString().c_str(), pkgName.toStdString().c_str());
+//    if (nRes) {
+//        qDebug() << "BackendWorker::installApp success";
+//        emit this->installFinished(fileName, true);
+//    }
+//    else {
+//        qDebug() << "BackendWorker::installApp failed";
+//        emit this->installFinished(fileName, false);
+//    }
+//    dlclose(module_handle);
+//}

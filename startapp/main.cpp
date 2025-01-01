@@ -346,6 +346,7 @@ int main(int argc, char *argv[])
         syslog(LOG_DEBUG, "App is running, exit now!");
         return 0;
     }
+    //Utils::installUninstalledApk();
     
     //don't need to call this func, because kmre manager service has already started in func 'GetDisplayInformation';
     //dBusClient->StartKmreManager();

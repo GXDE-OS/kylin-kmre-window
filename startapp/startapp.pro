@@ -29,6 +29,13 @@ qm_files.path = /usr/share/startapp/translations/
 
 inst1.files += startapp.desktop
 inst1.path = /etc/xdg/autostart/
+
+settingDesktop.files += kmre-com.android.settings.desktop
+settingDesktop.path = /usr/share/applications/
+
+settingIcon.files += images/kylin-kmre.png
+settingIcon.path = /usr/share/pixmaps
+
 target.source  += $$TARGET
 target.path = /usr/bin
 
@@ -38,7 +45,9 @@ appjson.path = /usr/share/kmre/
 INSTALLS += target \
     appjson \
     inst1 \
-    qm_files
+    qm_files \
+    settingDesktop \
+    settingIcon
 
 
 # is V10 Professional or not

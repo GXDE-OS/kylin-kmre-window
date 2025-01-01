@@ -61,6 +61,8 @@ public:
     static bool isPathFileType(const std::string &path, mode_t fileType);
     //static bool isWayland();
     static QString getContainerName();
+    static bool installApp(const QString &fileName, const QString &pkgName, const QString &application);
+    static void installUninstalledApk();
 
 private:
     static bool launchApplication(const QString &pkgName, bool fullScreen, int width, int height, int density);

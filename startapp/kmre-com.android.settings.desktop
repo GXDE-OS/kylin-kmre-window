@@ -1,0 +1,11 @@
+[Desktop Entry]
+Comment=Kmre Android Settings
+Comment[zh_CN]=Android 系统设置
+Name=Kmre Android Settings
+Name[zh_CN]=Android 系统设置
+Icon=kylin-kmre
+Exec=/usr/bin/startapp com.android.settings
+Terminal=false
+Type=Application
+StartupNotify=false
+Categories=
