@@ -1,9 +1,10 @@
-kylin-kmre-window (3.0.0.0gxde1) UNRELEASED; urgency=medium
+kylin-kmre-window (3.0.0.1) UNRELEASED; urgency=medium
 
   * 修复构建问题
   * 启动器新增系统设置入口
+  * 开启 kylin10pro 构建选项
 
- -- gfdgd_xi <3025613752@qq.com>  Sun, 29 Dec 2024 10:12:58 +0800
+ -- gfdgd_xi <3025613752@qq.com>  Sat, 25 Jan 2025 19:21:36 +0800
 
 kylin-kmre-window (3.0.0.0-0k0.2) v101; urgency=medium
 

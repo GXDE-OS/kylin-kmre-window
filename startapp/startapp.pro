@@ -54,6 +54,7 @@ INSTALLS += target \
 isEmpty(lsb_release):lsb_release=lsb_release
 DISTRIB_DESCRIPTION = $$system($$lsb_release -d)
 V10_PRO = $$system(cat /etc/lsb-release | grep -ci -e "Kylin\ V10\ Professional" -e "Kylin\ V10\ SP1" -e "Kylin\ V10\ SP2" -e "openKylin")
+DEFINES += KYLIN_V10
 isEqual(V10_PRO, 0) {
     DEFINES += KYLIN_V10
 } else {
