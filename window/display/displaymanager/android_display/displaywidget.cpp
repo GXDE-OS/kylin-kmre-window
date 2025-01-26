@@ -113,7 +113,7 @@ DisplayWidget::~DisplayWidget()
 void DisplayWidget::initDisplayScalingFactor()
 {
     mDisplayScalingFactor = QApplication::primaryScreen()->devicePixelRatio();
-    //mDisplayScalingFactor = 1.25f;
+    // Kylin 的 schemas
     if (QGSettings::isSchemaInstalled("org.ukui.SettingsDaemon.plugins.xsettings")) {
         QGSettings scaleSettings("org.ukui.SettingsDaemon.plugins.xsettings", "/org/ukui/settings-daemon/plugins/xsettings/", this);
 //        for (QString key : scaleSettings.keys()) {
@@ -124,6 +124,16 @@ void DisplayWidget::initDisplayScalingFactor()
         }
         if (mDisplayScalingFactor <= 0.0f) {
             mDisplayScalingFactor = 1.0f;
+        }
+    }
+    // DDE/GXDE 的 schemas
+    if (QGSettings::isSchemaInstalled("com.deepin.xsettings")) {
+        QGSettings scaleSettings("com.deepin.xsettings", "/com/deepin/xsettings/");
+        if (scaleSettings.keys().contains("scale-factor")) {
+            mDisplayScalingFactor = scaleSettings.get("scale-factor").toDouble();
+        }
+        if (mDisplayScalingFactor <= 0.0) {
+            mDisplayScalingFactor = 1.0;
         }
     }
 
