@@ -44,6 +44,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <sys/syslog.h>
+#include <QScreen>
 
 #include "displaywidget.h"
 #include "dbusclient.h"
@@ -111,8 +112,8 @@ DisplayWidget::~DisplayWidget()
 
 void DisplayWidget::initDisplayScalingFactor()
 {
-    //mDisplayScalingFactor = QApplication::primaryScreen()->devicePixelRatio();
-    mDisplayScalingFactor = 1.0f;
+    mDisplayScalingFactor = QApplication::primaryScreen()->devicePixelRatio();
+    //mDisplayScalingFactor = 1.25f;
     if (QGSettings::isSchemaInstalled("org.ukui.SettingsDaemon.plugins.xsettings")) {
         QGSettings scaleSettings("org.ukui.SettingsDaemon.plugins.xsettings", "/org/ukui/settings-daemon/plugins/xsettings/", this);
 //        for (QString key : scaleSettings.keys()) {
