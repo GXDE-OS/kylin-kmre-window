@@ -27,3 +27,7 @@ build*/
 *.swp
 
 *.vscode
+
+.moc
+.ui
+.rcc

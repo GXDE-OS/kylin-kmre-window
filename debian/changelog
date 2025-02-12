@@ -1,12 +1,8 @@
-kylin-kmre-window (3.0.0.3) UNRELEASED; urgency=medium
+kylin-kmre-window (3.0.0.4) UNRELEASED; urgency=medium
 
-  * 修复构建问题
-  * 启动器新增系统设置入口
-  * 开启 kylin10pro 构建选项
-  * 修复不会跟随系统缩放的问题
-  * 支持使用 DDE/GXDE 的 schemas 获取缩放比
+  * 初步修改 GXDE 25 构建问题
 
- -- gfdgd_xi <3025613752@qq.com>  Sun, 26 Jan 2025 09:35:32 +0800
+ -- gfdgd_xi <3025613752@qq.com>  Wed, 12 Feb 2025 12:30:25 +0800
 
 kylin-kmre-window (3.0.0.0-0k0.2) v101; urgency=medium
 

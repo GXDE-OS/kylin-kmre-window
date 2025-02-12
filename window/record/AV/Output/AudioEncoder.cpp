@@ -56,7 +56,7 @@ AudioEncoder::~AudioEncoder() {
 
 unsigned int AudioEncoder::GetFrameSize() {
 #if SSR_USE_AVCODEC_ENCODE_AUDIO2
-	return (GetCodecContext()->codec->capabilities & AV_CODEC_CAP_VARIABLE_FRAME_SIZE)? DEFAULT_FRAME_SAMPLES : GetCodecContext()->frame_size;
+    return (GetCodecContext()->codec->capabilities & AV_CODEC_CAP_VARIABLE_FRAME_SIZE)? DEFAULT_FRAME_SAMPLES : GetCodecContext()->frame_size;
 #else
 	return (GetCodecContext()->frame_size <= 1)? DEFAULT_FRAME_SAMPLES : GetCodecContext()->frame_size;
 #endif
@@ -67,7 +67,11 @@ AVSampleFormat AudioEncoder::GetSampleFormat() {
 }
 
 unsigned int AudioEncoder::GetChannels() {
-	return GetCodecContext()->channels;
+#if (LIBAVUTIL_VERSION_MAJOR < 59)
+    return GetCodecContext()->channels;
+#else
+    return GetCodecContext()->ch_layout.nb_channels;
+#endif
 }
 
 unsigned int AudioEncoder::GetSampleRate() {
@@ -104,8 +108,19 @@ void AudioEncoder::PrepareStream(AVStream* stream, AVCodecContext* codec_context
 	}
 
 	codec_context->bit_rate = bit_rate;
-	codec_context->channels = channels;
-	codec_context->channel_layout = (channels == 1)? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO;
+#if (LIBAVUTIL_VERSION_MAJOR < 59)
+    codec_context->channels = channels;
+    codec_context->channel_layout = (channels == 1)? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO;
+#else
+    codec_context->ch_layout.nb_channels = channels;
+    if (channels == 1) {
+        codec_context->ch_layout = (AVChannelLayout)AV_CHANNEL_LAYOUT_MONO;
+    }
+    else {
+        codec_context->ch_layout = (AVChannelLayout)AV_CHANNEL_LAYOUT_STEREO;
+    }
+#endif
+
 	codec_context->sample_rate = sample_rate;
 	codec_context->time_base.num = 1;
 	codec_context->time_base.den = sample_rate;
@@ -156,7 +171,11 @@ bool AudioEncoder::EncodeFrame(AVFrameWrapper* frame) {
 		assert((unsigned int) frame->GetFrame()->nb_samples == GetFrameSize());
 #endif
 #if SSR_USE_AVFRAME_CHANNELS
-		assert(frame->GetFrame()->channels == GetCodecContext()->channels);
+    #if (LIBAVUTIL_VERSION_MAJOR < 59)
+        assert(frame->GetFrame()->channels == GetCodecContext()->channels);
+    #else
+        assert(frame->GetFrame()->ch_layout.nb_channels == GetCodecContext()->ch_layout.nb_channels);
+    #endif
 #endif
 #if SSR_USE_AVFRAME_SAMPLE_RATE
 		assert(frame->GetFrame()->sample_rate == GetCodecContext()->sample_rate);

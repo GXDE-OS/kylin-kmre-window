@@ -176,7 +176,11 @@ static std::unique_ptr<AVFrameWrapper> CreateAudioFrame(unsigned int channels, u
 	frame->GetFrame()->nb_samples = samples;
 #endif
 #if SSR_USE_AVFRAME_CHANNELS
-	frame->GetFrame()->channels = channels;
+    #if (LIBAVUTIL_VERSION_MAJOR < 59)
+    frame->GetFrame()->channels = channels;
+    #else
+    frame->GetFrame()->ch_layout.nb_channels = channels;
+    #endif
 #endif
 #if SSR_USE_AVFRAME_SAMPLE_RATE
 	frame->GetFrame()->sample_rate = sample_rate;
