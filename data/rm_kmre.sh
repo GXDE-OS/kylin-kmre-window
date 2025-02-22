@@ -148,13 +148,14 @@ if [ -f $JsonFilePath ]; then
 fi
 
 echo "[Message]Remove KMRE data..."
-rm -fr /var/lib/kmre
-rm -fr /usr/share/kmre
+sudo umount /var/lib/kmre/*/data/media/*/*
+rm -frv /var/lib/kmre
+rm -frv /usr/share/kmre
 
 # --------------------------------------- remove kmre user config
 if [ "$CLEAR_USER_DATA" = "clear" ]; then
     echo "[Message]Remove KMRE user config..."
-    rm -fr /home/$CALL_USER/.config/kmre
+    rm -frv /home/$CALL_USER/.config/kmre
 fi
 
 echo "[Progress]100"
