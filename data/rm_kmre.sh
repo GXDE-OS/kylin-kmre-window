@@ -148,6 +148,11 @@ if [ -f $JsonFilePath ]; then
 fi
 
 echo "[Message]Remove KMRE data..."
+sudo umount /var/lib/kmre/*/*
+sudo umount /var/lib/kmre/data/*/* 
+sudo umount /var/lib/kmre/data/*
+sudo umount /var/lib/kmre/*/data/local/* 
+sudo umount /var/lib/kmre/*/data/user/*
 sudo umount /var/lib/kmre/*/data/media/*/*
 rm -frv /var/lib/kmre
 rm -frv /usr/share/kmre
