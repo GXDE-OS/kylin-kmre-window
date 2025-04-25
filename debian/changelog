@@ -1,9 +1,9 @@
-kylin-kmre-window (3.0.0.6) UNRELEASED; urgency=medium
+kylin-kmre-window (3.0.0.7) UNRELEASED; urgency=medium
 
   * 修复使用 Kmre 设置里的 Kmre 卸载功能会导致 /home、/media 等目录清空的问题（https://gitee.com/GXDE-OS/GXDE/issues/IBO2CU ）
   * 修复顶置按钮图标缺失的问题
 
- -- gfdgd_xi <3025613752@qq.com>  Fri, 25 Apr 2025 22:39:35 +0800
+ -- gfdgd_xi <3025613752@qq.com>  Fri, 25 Apr 2025 22:42:09 +0800
 
 kylin-kmre-window (3.0.0.0-0k0.2) v101; urgency=medium
 
