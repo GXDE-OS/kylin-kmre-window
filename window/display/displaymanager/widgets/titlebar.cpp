@@ -249,8 +249,9 @@ void TitleBar::initRightContent()
     m_fullscreenBtn->setIcon(QIcon::fromTheme("view-fullscreen-symbolic"));
     m_minBtn->setIcon(QIcon::fromTheme("window-minimize-symbolic"));
     m_closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
-    m_topBtn->setIcon(QIcon::fromTheme("ukui-fixed-symbolic"));
-    m_cancletopBtn->setIcon(QIcon::fromTheme("ukui-unfixed-symbolic"));
+    //m_topBtn->setIcon(QIcon::fromTheme("ukui-fixed-symbolic"));
+    m_topBtn->setIcon(QIcon::fromTheme("window-pin"));
+    m_cancletopBtn->setIcon(QIcon::fromTheme("window-unpin"));
     m_screenshotBtn->setIcon(QIcon::fromTheme("screenshot-app-symbolic"));
 
     m_menuBtn->setFocusPolicy(Qt::NoFocus);
