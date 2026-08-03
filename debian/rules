@@ -1,14 +1,14 @@
 #!/usr/bin/make -f
 
-export QT_SELECT=5
+#export QT_SELECT=5
 
 QMAKE_OPTS = DEFINES+=NO_DEBUG_ON_CONSOLE
 MAKE_OPTS  = PREFIX=/usr QMAKE=qmake LRELEASE=lrelease QMAKE_OPTS="$(QMAKE_OPTS)"
 
-override_dh_auto_configure:
-	QT_SELECT=qt5 dh_auto_configure \
-                -- "QMAKE_CXXFLAGS=$(CFLAGS)" \
-                kylin-kmre-window.pro
+#override_dh_auto_configure:
+#	QT_SELECT=qt5 dh_auto_configure \
+#                -- "QMAKE_CXXFLAGS=$(CFLAGS)" \
+#                kylin-kmre-window.pro
 
 %:
 	dh $@
