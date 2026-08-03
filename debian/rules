@@ -46,5 +46,5 @@ override_dh_auto_clean:
 	[ ! -f settings-ui/Makefile ]  || $(RM) settings-ui/Makefile
 	dh_auto_clean
 
-#override_dh_auto_build:
-#	dh_auto_build -- $(MAKE_OPTS)
+override_dh_auto_build:
+	dh_auto_build -- $(MAKE_OPTS) -j $(nproc)
