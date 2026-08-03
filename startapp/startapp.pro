@@ -109,13 +109,13 @@ RESOURCES += \
 
 # for wayland
 # libkf5wayland-dev libwayland-dev
-#DEFINES += UKUI_WAYLAND
-#contains(DEFINES, UKUI_WAYLAND) {
-#    QT += KWaylandClient
-#    PKGCONFIG += wayland-client
-#    SOURCES += ukui-wayland/ukui-decoration-manager.cpp ukui-wayland/ukui-decoration-core.c
-#    HEADERS += ukui-wayland/ukui-decoration-manager.h ukui-wayland/ukui-decoration-client.h
-#}
+DEFINES += UKUI_WAYLAND
+contains(DEFINES, UKUI_WAYLAND) {
+    QT += KWaylandClient
+    PKGCONFIG += wayland-client
+    SOURCES += ukui-wayland/ukui-decoration-manager.cpp ukui-wayland/ukui-decoration-core.c
+    HEADERS += ukui-wayland/ukui-decoration-manager.h ukui-wayland/ukui-decoration-client.h
+}
 
 unix {
     UI_DIR = $$PWD/.ui

@@ -150,7 +150,7 @@ contains( DEFINES, SINGLE_INSTANCE ) {
 
 # for wayland
 # libkf5wayland-dev libwayland-dev
-#DEFINES += UKUI_WAYLAND
+DEFINES += UKUI_WAYLAND
 contains(DEFINES, UKUI_WAYLAND) {
     QT += KWaylandClient
     PKGCONFIG += wayland-client
