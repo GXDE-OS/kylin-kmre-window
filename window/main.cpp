@@ -83,6 +83,12 @@ static void setApplicationEnv()
 
     if (SessionSettings::getInstance().windowUsePlatformWayland()) {
         qputenv("QT_QPA_PLATFORM", "wayland");
+    } else {
+        // Wayland 会话下 Qt 默认会选择 wayland 平台插件。而窗口在非 Wayland
+        // 模式（如回退到 XWayland 的 DRM/EMUGL 显示）时必须明确使用 xcb，
+        // 否则窗口仍会跑在 wayland 平台上，在虚拟机软件渲染（swrast）环境下
+        // 创建平台窗口时 Mesa 会直接段错误（driCreateNewScreen3）。
+        qputenv("QT_QPA_PLATFORM", "xcb");
     }
 
     if (KmreEnv::isKylinOSPro() || KmreEnv::isOpenKylin()) {
