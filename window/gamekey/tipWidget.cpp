@@ -38,7 +38,7 @@ TipWidget::~TipWidget()
     deleteLater();
 }
 
-void TipWidget::enterEvent(QEvent *)
+void TipWidget::enterEvent(QEnterEvent *)
 {
     mbEnter       = true;
     mnTransparent = 200;
@@ -85,7 +85,7 @@ void TipWidget::SetMesseage(const QString &strMessage, const QPoint *pPoint)
     }
 
     QFontMetrics fm1(font());
-    setFixedSize(fm1.width(strMessage) + 30, 30);
+    setFixedSize(fm1.horizontalAdvance(strMessage) + 30, 30);
 
     mpParent = parentWidget();
 

@@ -27,7 +27,7 @@ EglDisplayHelper::EglDisplayHelper(DisplayWidget *widget, QObject* parent)
     : DisplayHelper(widget, parent),
       mCurrentOrientation(-1),
       mIsReadyForRender(false),
-      mUtilsMutex(QMutex::Recursive),
+      mUtilsMutex(),
       mDisplayWidget(nullptr)
 {
     mDisplayUtils = std::make_shared<EglDisplayUtils>(widget, this);

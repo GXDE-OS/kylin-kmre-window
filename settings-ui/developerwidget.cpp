@@ -37,7 +37,7 @@ DeveloperWidget::DeveloperWidget(QWidget * parent)
     m_mainFrame = new QFrame;
     m_stackedLayout = new QStackedLayout;
     m_stackedLayout->setSpacing(0);
-    m_stackedLayout->setMargin(0);
+    m_stackedLayout->setContentsMargins(0, 0, 0, 0);
     this->m_title->setText(tr("Developer Mode"));
     m_tip = new QLabel;
     m_check = new QCheckBox;
@@ -66,7 +66,7 @@ DeveloperWidget::DeveloperWidget(QWidget * parent)
 
     QVBoxLayout *m_layout = new QVBoxLayout(m_mainFrame);
     m_layout->setSpacing(0);
-    m_layout->setMargin(0);
+    m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->addSpacing(8);
     m_layout->addWidget(m_check);
     m_layout->addSpacing(16);
@@ -78,7 +78,7 @@ DeveloperWidget::DeveloperWidget(QWidget * parent)
 
     QVBoxLayout *m_tiplayout = new QVBoxLayout(m_tipFrame);
     m_tiplayout->setSpacing(0);
-    m_tiplayout->setMargin(0);
+    m_tiplayout->setContentsMargins(0, 0, 0, 0);
     m_tiplayout->addSpacing(8);
     m_tiplayout->addWidget(m_tipLabel, 0, Qt::AlignHCenter);
     m_tiplayout->addStretch();

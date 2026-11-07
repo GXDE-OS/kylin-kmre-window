@@ -37,7 +37,7 @@ LoadingWidget::LoadingWidget(QWidget *parent)
     m_label->setFixedSize(ICON_WIDTH, ICON_HEIGHT);
 
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addStretch();
     layout->addWidget(m_label, 0, Qt::AlignCenter);

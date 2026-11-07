@@ -46,26 +46,26 @@ QString FormatConversion::dataCalculation(QString data)
     QString converseData2;
     double gpsData = data.toDouble();
     int temp = qFloor(gpsData);
-    converseData.sprintf("%d", temp);
+    converseData = QString::asprintf("%d", temp);
 
     double longitudeTmp1 = 60 * (gpsData - qFloor(gpsData));
     int integer = qFloor(longitudeTmp1);
     if (integer < 10) {
-        converseData1.sprintf("%s%d%s", "0", integer, ".");
+        converseData1 = QString::asprintf("%s%d%s", "0", integer, ".");
     } else {
-        converseData1.sprintf("%d%s", integer, ".");
+        converseData1 = QString::asprintf("%d%s", integer, ".");
     }
     //小数部分
     double longitudeTmp2 = (longitudeTmp1 - integer) * 10000;
     int integer1 = qFloor(longitudeTmp2);
     if (integer1 < 1000) {
-        converseData2.sprintf("%s%d", "0", integer1);
+        converseData2 = QString::asprintf("%s%d", "0", integer1);
     } else if (integer1 < 100) {
-        converseData2.sprintf("%s%d", "00", integer1);
+        converseData2 = QString::asprintf("%s%d", "00", integer1);
     } else if (integer1 < 10) {
-        converseData2.sprintf("%s%d", "000", integer1);
+        converseData2 = QString::asprintf("%s%d", "000", integer1);
     } else {
-        converseData2.sprintf("%d", integer1);
+        converseData2 = QString::asprintf("%d", integer1);
     }
     return converseData + converseData1 + converseData2;
 }
@@ -97,7 +97,7 @@ QString FormatConversion::dataConversion(QString locationData)
     retLat = latitude - getLatitude.toDouble();
     retLon = longitude - getLongitude.toDouble();
     QString converseData;
-    converseData.sprintf("%f%s%f", retLat, ",", retLon);
+    converseData = QString::asprintf("%f%s%f", retLat, ",", retLon);
     return toGPSPoint(converseData);
 }
 
@@ -117,7 +117,7 @@ QString FormatConversion::calDev(double wgLat, double wgLon)
     dLon = (dLon * 180.0) / (a / sqrtMagic * cos(radLat) * pi);
 
     QString converseData;
-    converseData.sprintf("%f%s%f", dLat, ",", dLon);
+    converseData = QString::asprintf("%f%s%f", dLat, ",", dLon);
     return converseData;
 }
 

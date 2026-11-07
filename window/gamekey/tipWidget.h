@@ -39,7 +39,7 @@ private:
     ~TipWidget();
 
     void OnTimer();
-    void enterEvent(QEvent *);
+    void enterEvent(QEnterEvent *);
     void leaveEvent(QEvent *);
 
 private:

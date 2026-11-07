@@ -23,7 +23,6 @@
 
 #include <QApplication>
 #include <qpa/qplatformnativeinterface.h>
-#include <KWayland/Client/connection_thread.h>
 
 static UKUIDecorationManager *global_instance = nullptr;
 
@@ -109,8 +108,21 @@ bool UKUIDecorationManager::setCornerRadius(QWindow *windowHandle, int topleft, 
 
 UKUIDecorationManager::UKUIDecorationManager()
 {
-    auto connectionThread = KWayland::Client::ConnectionThread::fromApplication(qApp);
-    display = connectionThread->display();
+    /* Get the wl_display owned by the Qt Wayland platform integration. */
+    if (qGuiApp && qGuiApp->platformNativeInterface()) {
+        const QByteArray resources[] = {
+            QByteArrayLiteral("display"),
+            QByteArrayLiteral("wl_display")
+        };
+        for (const QByteArray &resource : resources) {
+            display = reinterpret_cast<wl_display *>(
+                qGuiApp->platformNativeInterface()->nativeResourceForIntegration(resource));
+            if (display)
+                break;
+        }
+    }
+    if (!display)
+        display = wl_display_connect(nullptr);
 
     struct wl_registry *registry = wl_display_get_registry(display);
 

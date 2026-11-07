@@ -43,13 +43,13 @@ InputItem::InputItem(QFrame *parent)
 
     QHBoxLayout *hlayout1 = new QHBoxLayout();
     hlayout1->setSpacing(0);
-    hlayout1->setMargin(0);
+    hlayout1->setContentsMargins(0, 0, 0, 0);
     hlayout1->addWidget(m_appTitle);
     hlayout1->addWidget(m_appEdit);
 
     QHBoxLayout *hlayout2 = new QHBoxLayout();
     hlayout2->setSpacing(0);
-    hlayout2->setMargin(0);
+    hlayout2->setContentsMargins(0, 0, 0, 0);
     hlayout2->addWidget(m_pkgTitle);
     hlayout2->addWidget(m_pkgEdit);
 

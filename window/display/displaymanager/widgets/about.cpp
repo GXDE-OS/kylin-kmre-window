@@ -191,7 +191,6 @@ QString About::getKmreVersion()
     QString confName = "/usr/share/kmre/kmre-update.conf";
     if (QFile::exists(confName)) {
         QSettings settings(confName, QSettings::IniFormat);
-        settings.setIniCodec("UTF-8");
         settings.beginGroup("update");
         version = settings.value("update_revision", QString("")).toString();
         settings.endGroup();
@@ -273,7 +272,7 @@ About::About(const QString &icon, QWidget *parent)
 
     QLabel *label = new QLabel;
     label->setWordWrap(true);
-    label->setMargin(20);
+    label->setContentsMargins(20, 20, 20, 20);
     this->setWidget(label);
 
     const QString &text = QString("<body style=\"line-height: 18px;font-size:12px;font-style: normal;\">"

@@ -47,7 +47,7 @@ void LocationListItem::initWidget()
     mainHLayout->addLayout(labelVLayout);
     mainHLayout->addStretch();
     mainHLayout->setSpacing(0);
-    mainHLayout->setMargin(0);
+    mainHLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(mainHLayout);
 }
 

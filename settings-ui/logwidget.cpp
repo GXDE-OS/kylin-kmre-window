@@ -134,7 +134,7 @@ LogWidget::LogWidget(const QString &userName, const QString &userId, QWidget *pa
     layout->setSpacing(21);
     layout->addWidget(m_title, 0, Qt::AlignHCenter);
     layout->addWidget(m_tipsLabel, 0, Qt::AlignHCenter);
-    //layout->setMargin(10);
+    //layout->setContentsMargins(10, 10, 10, 10);
     layout->setSpacing(16);
     layout->addStretch();
     layout->addLayout(hlayout);

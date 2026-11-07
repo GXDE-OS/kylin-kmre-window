@@ -1,0 +1,34 @@
+/*
+ * Minimal Qt6 replacement for the removed QtX11Extras module (QX11Info).
+ * Keeps the QX11Info::display() / QX11Info::isPlatformX11() call sites of
+ * this project working without the Qt5-only module.
+ *
+ * Deliberately does NOT include <X11/Xlib.h>: X11's macros (None, Bool,
+ * Status, ...) collide with Qt6 enum values when included before other Qt
+ * headers.  Files needing the full Xlib API include it themselves.
+ */
+#pragma once
+
+#include <QByteArray>
+#include <QGuiApplication>
+#include <qpa/qplatformnativeinterface.h>
+
+typedef struct _XDisplay Display;
+
+namespace QX11Info
+{
+
+inline bool isPlatformX11()
+{
+    return qGuiApp && qGuiApp->platformName() == QByteArrayLiteral("xcb");
+}
+
+inline Display *display()
+{
+    if (!qGuiApp || !qGuiApp->platformNativeInterface())
+        return nullptr;
+    return static_cast<Display *>(
+        qGuiApp->platformNativeInterface()->nativeResourceForIntegration(QByteArrayLiteral("display")));
+}
+
+} // namespace QX11Info

@@ -46,7 +46,7 @@ signals:
     void checkedChanged(const QString &pkgName, const bool checked) const;
 
 protected:
-    void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void enterEvent(QEnterEvent *event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
 
 private:

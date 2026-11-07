@@ -31,7 +31,7 @@ SettingsGroup::SettingsGroup(QFrame *parent) :
 {
     //this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     this->setStyleSheet("QFrame{border-radius:6px;background:palette(Window);}");
-    m_layout->setMargin(0);
+    m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(1);
     m_timer->setSingleShot(true);
     m_timer->setInterval(10);

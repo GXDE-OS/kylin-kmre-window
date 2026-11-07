@@ -50,7 +50,7 @@ void Toast::setParentAttr(QWidget* w){
 void Toast::setMessage(const QString str){
 
     QFontMetrics fm1(font());
-    this->setFixedSize(fm1.width(str) + 30, 40);
+    this->setFixedSize(fm1.horizontalAdvance(str) + 30, 40);
 
     QWidget* w = parentWidget();
     if(width()>w->width()){

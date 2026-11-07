@@ -68,7 +68,7 @@ AppWidget::AppWidget(SettingsType type, Preferences *pref, QWidget *parent)
     titlelayout->addStretch();
 
     m_layout = new QVBoxLayout();
-    m_layout->setMargin(0);
+    m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->addSpacing(8);
     m_layout->addWidget(tiplabel);
     m_layout->addWidget(m_view, 0, Qt::AlignLeft);

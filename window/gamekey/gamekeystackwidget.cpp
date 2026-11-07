@@ -46,7 +46,7 @@ GameKeyStackWidget::GameKeyStackWidget(KmreWindow *window)
 
     //选择键鼠手柄的两个按钮的布局
     QHBoxLayout* mHBLayout_ChangeStack = new QHBoxLayout();
-    mHBLayout_ChangeStack->setMargin(7);
+    mHBLayout_ChangeStack->setContentsMargins(7, 7, 7, 7);
     mHBLayout_ChangeStack->setSpacing(0);
     mHBLayout_ChangeStack->addSpacing(10);
     mHBLayout_ChangeStack->addWidget(ktab);
@@ -61,7 +61,7 @@ GameKeyStackWidget::GameKeyStackWidget(KmreWindow *window)
     mStackLayout_ContainWidget->addWidget(noJoystickStack);
 
     QVBoxLayout* mVBLayout_RightAll = new QVBoxLayout();
-    mVBLayout_RightAll->setMargin(0);
+    mVBLayout_RightAll->setContentsMargins(0, 0, 0, 0);
     mVBLayout_RightAll->setSpacing(0);
     mVBLayout_RightAll->addLayout(mHBLayout_ChangeStack);
     mVBLayout_RightAll->addLayout(mStackLayout_ContainWidget);

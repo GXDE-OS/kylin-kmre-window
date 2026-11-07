@@ -36,6 +36,7 @@
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
 #include <QX11Info>
+#include <QScreen>
 #include <QPainter>
 #include <QBitmap>
 #include <QDBusInterface>
@@ -115,12 +116,12 @@ Dialog::Dialog(const QString &tip, const QString &addition, QWidget *parent): QD
     text_label->setText(tr("Init Kmre Env"));
 
     QVBoxLayout *m_vlayout = new QVBoxLayout;
-    m_vlayout->setMargin(0);
+    m_vlayout->setContentsMargins(0, 0, 0, 0);
     m_vlayout->setSpacing(0);
     m_vlayout->addWidget(text_label);
     m_vlayout->addWidget(progressBar);
     QHBoxLayout *m_hlayout = new QHBoxLayout(this);
-    m_hlayout->setMargin(24);
+    m_hlayout->setContentsMargins(24, 24, 24, 24);
     m_hlayout->setSpacing(0);
     m_hlayout->addWidget(logo_label);
     m_hlayout->addSpacing(16);
@@ -188,7 +189,9 @@ void Dialog::setFixedPosition()
     QDBusReply<QVariantList> reply=iface.call("GetPrimaryScreenGeometry");
     if (!iface.isValid() || !reply.isValid() || reply.value().size()<5) {
         //this->setGeometry(0,0,this->width(),this->height());
-        this->move(desktop.availableGeometry().width() - this->width(), desktop.availableGeometry().height() - this->height());//move the window to right bottom
+        QScreen *screen = QGuiApplication::primaryScreen();
+        QRect avail = screen ? screen->availableGeometry() : QRect();
+        this->move(avail.width() - this->width(), avail.height() - this->height());//move the window to right bottom
         return;
     }
 

@@ -46,7 +46,7 @@ void SystemButton::setOffset(int x_offset, int y_offset)
     m_yOffSet = y_offset;
 }
 
-void SystemButton::enterEvent(QEvent *)
+void SystemButton::enterEvent(QEnterEvent *)
 {
     status = ENTER;
     update();

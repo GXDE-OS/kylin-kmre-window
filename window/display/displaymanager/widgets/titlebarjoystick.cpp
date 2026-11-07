@@ -34,7 +34,7 @@ TitleBarJoystick::~TitleBarJoystick(){
 void TitleBarJoystick::initUI(){
     QHBoxLayout* mLayout = new QHBoxLayout(this);
     mLayout->setSpacing(0);
-    mLayout->setMargin(0);
+    mLayout->setContentsMargins(0, 0, 0, 0);
 
     QWidget* w = new QWidget;
     QHBoxLayout* mLeftLayout = new QHBoxLayout(w);

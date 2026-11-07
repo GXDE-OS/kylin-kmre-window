@@ -15,20 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-QT += dbus network concurrent
-isEqual(QT_MAJOR_VERSION, 5) {
-    QT += widgets gui core x11extras gui-private multimedia xml egl_support-private
-}
-
-QT += KWaylandClient
-greaterThan(QT_MAJOR_VERSION, 5) {
-    QT += waylandclient-private
-}
-equals(QT_MAJOR_VERSION, 5) {
-    greaterThan(QT_MINOR_VERSION, 14) {
-        QT += waylandclient-private
-    }
-}
+QT += dbus network concurrent widgets gui core xml multimedia openglwidgets gui-private waylandclient-private
 
 TARGET = kylin-kmre-window
 TEMPLATE = app
@@ -93,7 +80,7 @@ CONFIG += qt warn_on
 CONFIG += release
 CONFIG += link_pkgconfig
 PKGCONFIG += xcb xcb-randr xcb-icccm xcb-xinerama xcb-dri2 xcb-dri3 \
-            gsettings-qt protobuf libdrm libavformat libavcodec libavutil libswscale \
+            gsettings-qt6 protobuf libdrm libavformat libavcodec libavutil libswscale \
             wayland-client
 
 CONFIG -= qmake_use
@@ -122,6 +109,10 @@ system(wayland-scanner client-header wayland/remote-access.xml wayland/remote-ac
 system(wayland-scanner private-code wayland/remote-access.xml wayland/remote-access.c)
 system(wayland-scanner client-header wayland/xdg-output-unstable-v1.xml wayland/xdg-output-unstable-v1.h)
 system(wayland-scanner private-code wayland/xdg-output-unstable-v1.xml wayland/xdg-output-unstable-v1.c)
+system(wayland-scanner client-header wayland/ukui/plasma-shell.xml wayland/ukui/plasma-shell-client-protocol.h)
+system(wayland-scanner private-code wayland/ukui/plasma-shell.xml wayland/ukui/plasma-shell-client-protocol.c)
+system(wayland-scanner client-header wayland/ukui/plasma-window-management.xml wayland/ukui/plasma-window-management-client-protocol.h)
+system(wayland-scanner private-code wayland/ukui/plasma-window-management.xml wayland/ukui/plasma-window-management-client-protocol.c)
 
 SOURCES += main.cpp
 

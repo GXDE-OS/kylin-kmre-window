@@ -53,8 +53,12 @@ bool OverlayButton::eventFilter(QObject *obj, QEvent *event)
             QMouseEvent* me = new QMouseEvent(event->type(), pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
             mGameKeyManager->sendEventToMainDisplay(me);
 #else*/
-            mouseEvent->setLocalPos(pos);
-            mMainWindow->getGameKeyManager()->sendEventToMainDisplay(mouseEvent);
+            QMouseEvent *adjustedEvent = new QMouseEvent(mouseEvent->type(), pos,
+                                                         mouseEvent->globalPosition(),
+                                                         mouseEvent->button(), mouseEvent->buttons(),
+                                                         mouseEvent->modifiers(),
+                                                         static_cast<const QPointingDevice *>(mouseEvent->device()));
+            mMainWindow->getGameKeyManager()->sendEventToMainDisplay(adjustedEvent);
 //#endif
             event->accept();
             return true;

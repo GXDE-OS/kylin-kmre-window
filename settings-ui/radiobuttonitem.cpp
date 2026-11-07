@@ -70,7 +70,7 @@ RadioButtonItem::RadioButtonItem(QButtonGroup *btnGroup, int index, QFrame *pare
     m_confirmBtn->setVisible(false);
 
     QHBoxLayout *layout = new QHBoxLayout();
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(m_radioBtn, 0, Qt::AlignVCenter | Qt::AlignLeft);
     layout->addWidget(m_label, 0, Qt::AlignVCenter | Qt::AlignLeft);

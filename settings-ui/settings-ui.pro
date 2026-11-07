@@ -15,12 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-isEqual(QT_MAJOR_VERSION, 5) {
-    QT += widgets gui core x11extras gui-private concurrent multimedia xml
-}
+QT += widgets gui core dbus gui-private concurrent multimedia xml
 
 unix {
-    QT += dbus
     LIBS += $${QMAKE_LIBS_X11}
 }
 
@@ -32,7 +29,7 @@ CONFIG += c++17
 CONFIG += qt warn_on
 CONFIG += release
 CONFIG += link_pkgconfig
-PKGCONFIG += gsettings-qt
+PKGCONFIG += gsettings-qt6
 
 LIBS += -ldl
 
@@ -149,12 +146,16 @@ contains( DEFINES, SINGLE_INSTANCE ) {
 }
 
 # for wayland
-# libkf5wayland-dev libwayland-dev
+# libwayland-dev
 DEFINES += UKUI_WAYLAND
 contains(DEFINES, UKUI_WAYLAND) {
-    QT += KWaylandClient
     PKGCONFIG += wayland-client
-    SOURCES += ukui-wayland/ukui-decoration-manager.cpp ukui-wayland/ukui-decoration-core.c ukui-wayland/plasma-shell-manager.cpp dialog.cpp
+    system(wayland-scanner client-header $$PWD/ukui-wayland/plasma-shell.xml $$PWD/ukui-wayland/plasma-shell-client-protocol.h)
+    system(wayland-scanner private-code $$PWD/ukui-wayland/plasma-shell.xml $$PWD/ukui-wayland/plasma-shell-client-protocol.c)
+    system(wayland-scanner client-header $$PWD/ukui-wayland/plasma-window-management.xml $$PWD/ukui-wayland/plasma-window-management-client-protocol.h)
+    system(wayland-scanner private-code $$PWD/ukui-wayland/plasma-window-management.xml $$PWD/ukui-wayland/plasma-window-management-client-protocol.c)
+    SOURCES += ukui-wayland/ukui-decoration-manager.cpp ukui-wayland/ukui-decoration-core.c ukui-wayland/plasma-shell-manager.cpp dialog.cpp \
+               ukui-wayland/plasma-shell-client-protocol.c ukui-wayland/plasma-window-management-client-protocol.c
     HEADERS += ukui-wayland/ukui-decoration-manager.h ukui-wayland/ukui-decoration-client.h ukui-wayland/plasma-shell-manager.h dialog.h
 }
 

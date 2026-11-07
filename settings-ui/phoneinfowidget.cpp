@@ -78,7 +78,7 @@ PhoneInfoWidget::PhoneInfoWidget(QWidget *parent)
     QFontMetrics fm(ft);
     QString elided_text = fm.elidedText(tr("Phone model"), Qt::ElideRight, 100);
     modelLabel->setText(elided_text);
-    if (fm.width(tr("Phone model")) > modelLabel->width()) {
+    if (fm.horizontalAdvance(tr("Phone model")) > modelLabel->width()) {
         modelLabel->setToolTip(tr("Phone model"));
     }
     IMEILabel->setFixedWidth(100);
@@ -102,8 +102,8 @@ PhoneInfoWidget::PhoneInfoWidget(QWidget *parent)
 //    line4->setFixedWidth(150);
 //    line5->setFixedWidth(150);
     IMEIline->setFixedWidth(240);
-    QRegExp regExp("([0-9]{15})");
-    QRegExpValidator *validator = new QRegExpValidator(regExp, this);
+    QRegularExpression regExp("([0-9]{15})");
+    QRegularExpressionValidator *validator = new QRegularExpressionValidator(regExp, this);
     IMEIline->setValidator(validator);
     presetFrame = new QFrame;
     customFrame = new QFrame;
@@ -161,16 +161,16 @@ PhoneInfoWidget::PhoneInfoWidget(QWidget *parent)
     m_hlayout->addStretch();
 
     QVBoxLayout *presetlayout = new QVBoxLayout(presetFrame);
-    presetlayout->setMargin(0);
+    presetlayout->setContentsMargins(0, 0, 0, 0);
     presetlayout->setSpacing(0);
     QHBoxLayout *brandlayout1 = new QHBoxLayout;
-    brandlayout1->setMargin(0);
+    brandlayout1->setContentsMargins(0, 0, 0, 0);
     brandlayout1->addWidget(Label3);
     brandlayout1->addSpacing(80);
     brandlayout1 ->addWidget(presetBox1);
     brandlayout1->addStretch();
     QHBoxLayout *modellayout1 = new QHBoxLayout;
-    modellayout1->setMargin(0);
+    modellayout1->setContentsMargins(0, 0, 0, 0);
     modellayout1->addWidget(Label4);
     modellayout1->addSpacing(80);
     modellayout1->addWidget(presetBox2);
@@ -185,16 +185,16 @@ PhoneInfoWidget::PhoneInfoWidget(QWidget *parent)
     presetlayout->addLayout(modellayout1);
 
     QVBoxLayout *customhlayout = new QVBoxLayout(customFrame);
-    customhlayout->setMargin(0);
+    customhlayout->setContentsMargins(0, 0, 0, 0);
     customhlayout->setSpacing(0);
     QHBoxLayout *brandlayout = new QHBoxLayout;
-    brandlayout->setMargin(0);
+    brandlayout->setContentsMargins(0, 0, 0, 0);
     brandlayout->addWidget(Label1);
     brandlayout->addSpacing(80);
     brandlayout->addWidget(line1);
     brandlayout->addStretch();
     QHBoxLayout *modellayout = new QHBoxLayout;
-    modellayout->setMargin(0);
+    modellayout->setContentsMargins(0, 0, 0, 0);
     modellayout->addWidget(Label2);
     modellayout->addSpacing(80);
     modellayout->addWidget(line2);
@@ -238,7 +238,7 @@ PhoneInfoWidget::PhoneInfoWidget(QWidget *parent)
 
     QLabel *tiplabel = new QLabel(tr("The Settings take effect after the environment is restarted"));
     QVBoxLayout *vlayout1 = new QVBoxLayout;
-    vlayout1->setMargin(0);
+    vlayout1->setContentsMargins(0, 0, 0, 0);
     vlayout1->setSpacing(0);
     vlayout1->addSpacing(8);
     vlayout1->addWidget(tiplabel);
@@ -264,7 +264,7 @@ PhoneInfoWidget::PhoneInfoWidget(QWidget *parent)
                 QFontMetrics fm(ft);
                 QString elided_text = fm.elidedText(tr("Phone model"), Qt::ElideRight, 100);
                 modelLabel->setText(elided_text);
-                if (fm.width(tr("Phone model")) > modelLabel->width()) {
+                if (fm.horizontalAdvance(tr("Phone model")) > modelLabel->width()) {
                     modelLabel->setToolTip(tr("Phone model"));
                 }
             }
@@ -461,7 +461,6 @@ void PhoneInfoWidget::setpresetmodelInfo()
 
 void PhoneInfoWidget::setrandimei()
 {
-    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
     const char chrs[] = "0123456789";
     int chrs_size = sizeof(chrs);
     char *ch = new char[16];

@@ -43,7 +43,7 @@ GameListItem::GameListItem(QWidget *parent, QString pkgName, QString appName) :
     m_pkgLabel->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     m_pkgLabel->setWordWrap(true);
 
-    m_mainLyout->setMargin(0);
+    m_mainLyout->setContentsMargins(0, 0, 0, 0);
     m_mainLyout->setSpacing(5);
     m_mainLyout->setAlignment(Qt::AlignLeft);
     m_mainLyout->addWidget(m_appLabel);

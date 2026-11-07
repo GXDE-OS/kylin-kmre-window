@@ -70,7 +70,7 @@ SteelingWheel::SteelingWheel(KmreWindow* window)
     layout->addWidget(m_labelS, 2, 1, 1, 1, Qt::AlignBottom);
     layout->addWidget(m_labelA, 1, 0, 1, 1, Qt::AlignLeft);
     layout->addWidget(m_labelD, 1, 2, 1, 1, Qt::AlignRight);
-    layout->setMargin(5);
+    layout->setContentsMargins(5, 5, 5, 5);
     layout->setSpacing(5);
     this->setLayout(layout);
 

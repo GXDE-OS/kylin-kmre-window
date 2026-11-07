@@ -58,7 +58,7 @@ AppMultiplierWidget::AppMultiplierWidget(QWidget *parent) :
     m_switchframe = new QFrame;
     m_stackedLayout = new QStackedLayout;
     m_stackedLayout->setSpacing(0);
-    m_stackedLayout->setMargin(0);
+    m_stackedLayout->setContentsMargins(0, 0, 0, 0);
 
     m_multiplier = new QLabel();
     QMovie *multiplier = new QMovie(":/res/multiplier.gif");
@@ -110,7 +110,7 @@ AppMultiplierWidget::AppMultiplierWidget(QWidget *parent) :
     m_switchframe->setFixedWidth(500);
     m_switchframe->setStyleSheet("QFrame{border-radius:6px;background:palette(Base);} QFrame#switchframe{border: 1px solid #E9E9E9;}");
     QHBoxLayout *hlayout = new QHBoxLayout;
-    hlayout->setMargin(10);
+    hlayout->setContentsMargins(10, 10, 10, 10);
     hlayout->setSpacing(30);
     hlayout->addWidget(m_mainLabel, 0, Qt::AlignVCenter);
     hlayout->addStretch();
@@ -118,7 +118,7 @@ AppMultiplierWidget::AppMultiplierWidget(QWidget *parent) :
     m_switchframe->setLayout(hlayout);
 
     QVBoxLayout *tiplayout = new QVBoxLayout(m_tipFrame);
-    tiplayout->setMargin(0);
+    tiplayout->setContentsMargins(0, 0, 0, 0);
     tiplayout->setSpacing(30);
     tiplayout->addWidget(m_tipLabel, 0, Qt::AlignHCenter);
     tiplayout->addStretch();
@@ -136,7 +136,7 @@ AppMultiplierWidget::AppMultiplierWidget(QWidget *parent) :
     layout->addWidget(m_switchframe);
     layout->addWidget(m_list);
     layout->addWidget(m_noResultLabel);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     m_stackedLayout->addWidget(m_tipFrame);
     m_stackedLayout->addWidget(m_mainFrame);

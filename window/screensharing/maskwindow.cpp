@@ -42,31 +42,31 @@ MaskWindow::MaskWindow()
     setAttribute(Qt::WA_TranslucentBackground);                                                                                                                              
                                                                                                                                                                              
     QHBoxLayout *hLayout1 = new QHBoxLayout();                                                                                                                               
-    hLayout1->setMargin(0);                                                                                                                                                  
+    hLayout1->setContentsMargins(0, 0, 0, 0);                                                                                                                                                  
     hLayout1->addWidget(new CornerMask(100, 5, this), 1, Qt::AlignLeft);                                                                                                     
     hLayout1->addStretch();                                                                                                                                                  
     hLayout1->addWidget(new CornerMask(100, 5, this), 1, Qt::AlignRight);                                                                                                    
                                                                                                                                                                              
     QHBoxLayout *hLayout2 = new QHBoxLayout();                                                                                                                               
-    hLayout2->setMargin(0);                                                                                                                                                  
+    hLayout2->setContentsMargins(0, 0, 0, 0);                                                                                                                                                  
     hLayout2->addWidget(new CornerMask(5, 95, this), 1, Qt::AlignLeft);                                                                                                      
     hLayout2->addStretch();                                                                                                                                                  
     hLayout2->addWidget(new CornerMask(5, 95, this), 1, Qt::AlignRight);                                                                                                     
                                                                                                                                                                              
     QHBoxLayout *hLayout3 = new QHBoxLayout();                                                                                                                               
-    hLayout3->setMargin(0);                                                                                                                                                  
+    hLayout3->setContentsMargins(0, 0, 0, 0);                                                                                                                                                  
     hLayout3->addWidget(new CornerMask(5, 95, this), 1, Qt::AlignLeft);                                                                                                      
     hLayout3->addStretch();                                                                                                                                                  
     hLayout3->addWidget(new CornerMask(5, 95, this), 1, Qt::AlignRight);                                                                                                     
 
     QHBoxLayout *hLayout4 = new QHBoxLayout();
-    hLayout4->setMargin(0);
+    hLayout4->setContentsMargins(0, 0, 0, 0);
     hLayout4->addWidget(new CornerMask(100, 5, this), 1, Qt::AlignLeft);
     hLayout4->addStretch();
     hLayout4->addWidget(new CornerMask(100, 5, this), 1, Qt::AlignRight);
 
     QVBoxLayout *layout= new QVBoxLayout(); 
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addLayout(hLayout1);
     layout->addLayout(hLayout2);

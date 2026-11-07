@@ -92,8 +92,7 @@ void ScreenCapture::onScreenShot()
     else {
         QThread::usleep(400000);
         mHasImage = Clipboard::getInstance().getImage(mImageData);
-        QString cmd = "/usr/bin/kylin-screenshot gui";
-        QProcess::execute(cmd);
+        QProcess::execute(QStringLiteral("/usr/bin/kylin-screenshot"), {QStringLiteral("gui")});
         mStartShot = true;
         mCopysig = true;
     }

@@ -25,6 +25,7 @@
 
 #include <QTime>
 #include <QtGlobal>
+#include <QRandomGenerator>
 #include <QDebug>
 
 
@@ -164,8 +165,12 @@ void JoystickBaseKey::sendEventToApp(QEvent *event){
     QPoint pos = QPoint(globalPos.x() - mainWidget_x - margin_width,
                         globalPos.y() - mainWidget_y - titlebar_height);
     if ((pos.x() >= 0) && (pos.y() >= 0)) {
-        mouseEvent->setLocalPos(pos);
-        mMainWindow->getJoystickManager()->sendEventToMainDisplay(mouseEvent);
+        QMouseEvent *adjustedEvent = new QMouseEvent(mouseEvent->type(), pos,
+                                                     mouseEvent->globalPosition(),
+                                                     mouseEvent->button(), mouseEvent->buttons(),
+                                                     mouseEvent->modifiers(),
+                                                     static_cast<const QPointingDevice *>(mouseEvent->device()));
+        mMainWindow->getJoystickManager()->sendEventToMainDisplay(adjustedEvent);
     }
 }
 QPoint JoystickBaseKey::checkPosOutsideApp(QPoint pos){
@@ -184,8 +189,7 @@ QPoint JoystickBaseKey::checkPosOutsideApp(QPoint pos){
 }
 
 int JoystickBaseKey::getRandom(int init,int range){
-    qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
-    int num = qrand()%(range);
+    int num = QRandomGenerator::system()->bounded(range);
     return init+num;
 }
 

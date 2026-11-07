@@ -71,8 +71,6 @@ GlesVersionWidget::GlesVersionWidget(const QString &gpuVendor, QWidget * parent)
     }
     m_confName = QDir::homePath() + "/.config/kmre/render_gles";
     m_qsettings = new QSettings(m_confName, QSettings::IniFormat, this);
-    m_qsettings->setIniCodec("UTF-8");
-
     //setTitleTip(tr("OpenGL ES API level(requires restart)"));
 
     m_rebootBtn->setText(tr("Restart system"));
@@ -94,7 +92,7 @@ GlesVersionWidget::GlesVersionWidget(const QString &gpuVendor, QWidget * parent)
 
     QHBoxLayout *hlayout = new QHBoxLayout;
 
-    hlayout->setMargin(0);
+    hlayout->setContentsMargins(0, 0, 0, 0);
     hlayout->setSpacing(0);
     //hlayout->addStretch();
     hlayout->addWidget(m_rebootBtn, 0, Qt::AlignLeft);
@@ -107,7 +105,7 @@ GlesVersionWidget::GlesVersionWidget(const QString &gpuVendor, QWidget * parent)
     m_title->setText(tr("OpenGL ES API level(requires restart)"));
     m_title->setStyleSheet("QLabel{color:#A1A1A1;}");
 //    layout->setContentsMargins(30,2,39,40);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->addSpacing(0);
     layout->addWidget(m_title);
 //    layout->setSpacing(24);
@@ -125,20 +123,7 @@ GlesVersionWidget::GlesVersionWidget(const QString &gpuVendor, QWidget * parent)
 //    connect(m_rebootBtn, &QPushButton::clicked, this, [=]() {
 //    });
 
-#if QT_VERSION <= QT_VERSION_CHECK(5, 12, 0)
-    connect(m_btnGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), [=](QAbstractButton * button) {
-#else
-    connect(m_btnGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), [=](QAbstractButton *button) {
-#endif
-//        if (button->isChecked()) {
-//        }
-    });
-
-#if QT_VERSION <= QT_VERSION_CHECK(5, 12, 0)
-    connect(m_btnGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), [=](int id) {
-#else
-    connect(m_btnGroup, QOverload<int>::of(&QButtonGroup::buttonClicked), [=](int id) {
-#endif
+    connect(m_btnGroup, &QButtonGroup::idClicked, [=](int id) {
         for (int i=0; i<m_itemList.length(); i++) {
             if (i == id) {
                 m_itemList.at(i)->setConfirmButtonVisible(true);
@@ -204,7 +189,7 @@ void GlesVersionWidget::initRadioBtns()
 {
     if (m_glesLists.length() == m_descLists.length()) {
         QVBoxLayout *layout = new QVBoxLayout;
-        layout->setMargin(0);
+        layout->setContentsMargins(0, 0, 0, 0);
         layout->setSpacing(10);
 
         for (int i=0; i<m_glesLists.length();i++) {

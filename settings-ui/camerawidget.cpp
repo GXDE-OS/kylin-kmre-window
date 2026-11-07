@@ -22,7 +22,8 @@
 
 #include <QComboBox>
 #include <QBoxLayout>
-#include <QCameraInfo>
+#include <QMediaDevices>
+#include <QCameraDevice>
 #include <QFileSystemWatcher>
 #include <QTimer>
 #include <QDBusInterface>
@@ -50,7 +51,7 @@ CameraWidget::CameraWidget(QWidget * parent)
     frame->setAttribute(Qt::WA_TranslucentBackground, true);
 
     QHBoxLayout *hlayout = new QHBoxLayout;
-    //hlayout->setMargin(10);
+    //hlayout->setContentsMargins(10, 10, 10, 10);
     //hlayout->addSpacing(20);
     hlayout->addWidget(m_cameraLabel);
     hlayout->addSpacing(32);
@@ -65,7 +66,7 @@ CameraWidget::CameraWidget(QWidget * parent)
     layout->setContentsMargins(30,2,39,40);
     layout->addWidget(m_title);
     //layout->setSpacing(10);
-    //layout->setMargin(10);
+    //layout->setContentsMargins(10, 10, 10, 10);
     layout->addWidget(frame);
 
     centralWidget->setLayout(layout);
@@ -127,11 +128,11 @@ void CameraWidget::updateCameraDevices()
     m_cameraComboBox->setCurrentText(nocamera);
     m_cameraComboBox->setEnabled(false);
 
-    foreach (const QCameraInfo &cameraInfo, QCameraInfo::availableCameras()) {
+    foreach (const QCameraDevice &cameraInfo, QMediaDevices::videoInputs()) {
         QString nameTag;
-        nameTag = QString("%1 (%2)").arg(cameraInfo.description()).arg(cameraInfo.deviceName());
+        nameTag = QString("%1 (%2)").arg(cameraInfo.description()).arg(cameraInfo.id());
 
-        m_cameraMap[nameTag] = cameraInfo.deviceName();
+        m_cameraMap[nameTag] = cameraInfo.id();
         m_cameraComboBox->addItem(nameTag);
 
         if (!m_pref->m_cameraDeviceName.isEmpty() && !m_pref->m_cameraDeviceName.isNull()) {

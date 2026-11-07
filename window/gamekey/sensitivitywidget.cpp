@@ -58,7 +58,7 @@ SensitivityWidget::SensitivityWidget(QWidget *parent) : QWidget(parent)
 
     QHBoxLayout* mHLayout = new QHBoxLayout(this);
     mHLayout->setSpacing(0);
-    mHLayout->setMargin(4);
+    mHLayout->setContentsMargins(4, 4, 4, 4);
     mHLayout->addWidget(labe);
     mHLayout->addWidget(mSlider);
     mHLayout->addWidget(mNumberLabel);
@@ -70,7 +70,7 @@ SensitivityWidget::SensitivityWidget(QWidget *parent) : QWidget(parent)
 
     QHBoxLayout* mAllLayout = new QHBoxLayout(this);
     mAllLayout->addWidget(frame);
-    mAllLayout->setMargin(0);
+    mAllLayout->setContentsMargins(0, 0, 0, 0);
     mAllLayout->setSpacing(0);
     this->setLayout(mAllLayout);
 

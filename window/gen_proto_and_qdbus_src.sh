@@ -33,7 +33,7 @@ echo "Generate protobuf source finished."
 
 # generate qbus source
 cd $script_path/dbus/
-/usr/bin/qdbusxml2cpp cn.kylinos.Kmre.Window.xml -i metatypes.h -a window_dbus
+/usr/lib/qt6/bin/qdbusxml2cpp cn.kylinos.Kmre.Window.xml -i metatypes.h -a window_dbus
 
 echo "Generate qdbus source finished."
 

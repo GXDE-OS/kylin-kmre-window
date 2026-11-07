@@ -19,6 +19,8 @@
 
 #include "utils.h"
 
+#include <QScreen>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -53,8 +55,8 @@ void centerToScreen(QWidget* widget)
     if (!widget) {
       return;
     }
-    QDesktopWidget* m = QApplication::desktop();
-    QRect desk_rect = m->screenGeometry(m->screenNumber(QCursor::pos()));
+    QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
+    QRect desk_rect = screen ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
     int desk_x = desk_rect.width();
     int desk_y = desk_rect.height();
     int x = widget->width();
@@ -408,7 +410,7 @@ std::tuple<bool, QString> getElideText(const QString& origString, const uint32_t
     QFont ft;
     QFontMetrics fm(ft);
     QString elideText = fm.elidedText(origString, mode, maxLength);
-    if (fm.width(origString) > maxLength) {
+    if (fm.horizontalAdvance(origString) > maxLength) {
         elided = true;
     }
 

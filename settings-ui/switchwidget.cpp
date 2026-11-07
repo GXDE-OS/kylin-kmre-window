@@ -31,7 +31,7 @@ SwitchWidget::SwitchWidget(QFrame *parent):
 {
     //this->setStyleSheet("QFrame:hover{background: palette(Highlight); border-radius: 4px;}");//this->setStyleSheet("QFrame:hover{background-color: rgba(55,144,250,0.30);border-radius: 4px;}");
     QHBoxLayout *mainLayout = new QHBoxLayout;
-    mainLayout->setMargin(0);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->setSpacing(10);
     mainLayout->setContentsMargins(10, 0, 10, 0);
 

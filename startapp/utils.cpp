@@ -25,14 +25,12 @@
 
 #include <QDebug>
 #include <QFileInfo>
-#include <QDesktopWidget>
 #include <QScreen>
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <QRegExp>
 #include <QProcessEnvironment>
 #include <QSettings>
 #include <QDir>
@@ -392,8 +390,6 @@ bool isFullScreenConfiguraed(const QString &pkgName)
 {
     QString configFile = QString("%1/.config/kmre/kmre.ini").arg(QDir::homePath());
     QSettings kmreSettings(configFile, QSettings::IniFormat);
-    kmreSettings.setIniCodec("UTF-8");
-
     QStringList bootFullScreenAppsList;
     kmreSettings.beginGroup("boot_fullscreen");
     bootFullScreenAppsList = kmreSettings.value("apps_list").toStringList();

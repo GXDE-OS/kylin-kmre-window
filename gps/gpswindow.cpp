@@ -49,7 +49,7 @@ GPSWINDOW::GPSWINDOW(QWidget *parent) : QDialog(parent)
 
     //整体布局调整
     QGridLayout *mainLayout = new QGridLayout;
-    mainLayout->setMargin(15);
+    mainLayout->setContentsMargins(15, 15, 15, 15);
     mainLayout->setSpacing(10);
     mainLayout->setColumnStretch(0, 1);
     mainLayout->setColumnStretch(1, 2);

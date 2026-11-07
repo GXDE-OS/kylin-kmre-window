@@ -31,8 +31,7 @@
 
 #include <qpa/qplatformnativeinterface.h>
 
-#include <QtEglSupport/private/qeglconvenience_p.h>
-#include <QtPlatformHeaders/QEGLNativeContext>
+#include <QtGui/qopenglcontext_platform.h>
 
 #include <QDebug>
 #include <stdio.h>
@@ -251,9 +250,6 @@ bool EglDisplayUtils::initializeUtils()
         return true;
     }
 
-    EGLContext shareCtx = EGL_NO_CONTEXT;
-
-    QVariant nativeHandle;
     if (!mData->widget) {
         syslog(LOG_ERR, "EglDisplayUtils: Requires a display widget.");
         return false;
@@ -265,19 +261,6 @@ bool EglDisplayUtils::initializeUtils()
         return false;
     }
 
-    nativeHandle = mData->widget->context()->nativeHandle();
-    QString platformName = qGuiApp->platformName();
-    qDebug() << "platformName: " << platformName;
-    if (platformName == "wayland" || platformName == "wayland-egl") {
-        shareCtx = (EGLContext) qGuiApp->platformNativeInterface()->nativeResourceForContext(QByteArrayLiteral("eglcontext"), mData->widget->context());
-    } else {
-        if (!nativeHandle.canConvert<QEGLNativeContext>()) {
-            syslog(LOG_ERR, "EglDisplayUtils: Requires a QEGLNativeContext");
-            return false;
-        }
-        shareCtx = nativeHandle.value<QEGLNativeContext>().context();
-    }
-
     mData->eglDisplay = (EGLDisplay) qGuiApp->platformNativeInterface()->nativeResourceForIntegration(
         QByteArrayLiteral("egldisplay"));
     if (!mData->eglDisplay) {
@@ -285,32 +268,27 @@ bool EglDisplayUtils::initializeUtils()
         return false;
     }
 
-    QSurfaceFormat fmt = mData->widget->format();
-    EGLConfig config = q_configFromGLFormat(mData->eglDisplay, fmt);
-    if (config == EGL_NO_CONFIG_KHR) {
-        syslog(LOG_ERR, "EglDisplayUtils: Failed to get egl config.");
-        return false;
-    }
-
-    QVector<EGLint> contextAttrs;
-    contextAttrs.append(EGL_CONTEXT_CLIENT_VERSION);
-    contextAttrs.append(fmt.majorVersion());
-    contextAttrs.append(EGL_NONE);
-
-    eglBindAPI(EGL_OPENGL_ES_API);
-
-    mData->eglContext = eglCreateContext(mData->eglDisplay, config, shareCtx, contextAttrs.constData());
+    /* Let Qt create a context sharing with the widget's context so imported
+     * images stay usable on the widget surface. Qt owns the underlying
+     * EGLContext, which is fetched for eglCreateImageKHR use. */
     mData->context = std::make_shared<QOpenGLContext>();
-    mData->context->setNativeHandle(
-        QVariant::fromValue<QEGLNativeContext>(QEGLNativeContext(mData->eglContext, mData->eglDisplay)));
     mData->context->setShareContext(mData->widget->context());
     mData->context->setFormat(mData->widget->format());
     mData->context->moveToThread(currentThread);
-    mData->context->create();
+    if (!mData->context->create()) {
+        syslog(LOG_ERR, "EglDisplayUtils: Failed to create QOpenGLContext.");
+        mData->context.reset();
+        return false;
+    }
+    if (auto *eglContextIface = mData->context->nativeInterface<QNativeInterface::QEGLContext>()) {
+        mData->eglContext = eglContextIface->nativeContext();
+    } else {
+        syslog(LOG_ERR, "EglDisplayUtils: Requires a QNativeInterface::QEGLContext.");
+        return false;
+    }
 
     mData->surface = std::make_shared<QOffscreenSurface>();
     mData->surface->setFormat(mData->context->format());
-    mData->context->moveToThread(currentThread);
     mData->surface->create();
 
     mData->initialized = true;
@@ -423,7 +401,7 @@ void EglDisplayUtils::destroyEglContext()
     mData->context.reset();
     mData->surface.reset();
 
-    eglDestroyContext(mData->eglDisplay, mData->eglContext);
+    mData->eglContext = EGL_NO_CONTEXT;
     mData->initialized = false;
 }
 

@@ -42,13 +42,13 @@ CleanerItem::CleanerItem(const QJsonObject &value, const QString &currentImage, 
     referencedContainer(container)
 {
     m_item = new QListWidgetItem();
-    m_iconLabel->setMargin(0);
-//    m_idLabel->setMargin(0);
-    m_nameLabel->setMargin(0);
-    m_timeLabel->setMargin(0);
-    m_szLabel->setMargin(0);
-//    m_containerLabel->setMargin(0);
-    m_tipLabel->setMargin(0);
+    m_iconLabel->setContentsMargins(0, 0, 0, 0);
+//    m_idLabel->setContentsMargins(0, 0, 0, 0);
+    m_nameLabel->setContentsMargins(0, 0, 0, 0);
+    m_timeLabel->setContentsMargins(0, 0, 0, 0);
+    m_szLabel->setContentsMargins(0, 0, 0, 0);
+//    m_containerLabel->setContentsMargins(0, 0, 0, 0);
+    m_tipLabel->setContentsMargins(0, 0, 0, 0);
 
     m_iconLabel->setFixedSize(16, 16);
 //    m_idLabel->setFixedWidth(100);
@@ -90,7 +90,7 @@ CleanerItem::CleanerItem(const QJsonObject &value, const QString &currentImage, 
     m_tipLabel->setVisible(false);
 
     QHBoxLayout *hboxlayout = new QHBoxLayout;
-    hboxlayout->setMargin(0);
+    hboxlayout->setContentsMargins(0, 0, 0, 0);
     hboxlayout->setSpacing(20);
 //    hboxlayout->addWidget(m_idLabel, 0, Qt::AlignLeft);
     hboxlayout->addWidget(m_nameLabel, 0, Qt::AlignLeft);
@@ -231,7 +231,7 @@ QListWidgetItem* CleanerItem::getItem()
     return m_item;
 }
 
-void CleanerItem::enterEvent(QEvent *)
+void CleanerItem::enterEvent(QEnterEvent *)
 {
     if (!m_active) {
         m_removeButton->setVisible(true);
@@ -252,7 +252,7 @@ void CleanerItem::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
     QStyleOption opt;
-    opt.init(this);
+    opt.initFrom(this);
     QPainter p(this);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }

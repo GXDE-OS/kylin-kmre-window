@@ -26,7 +26,8 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
-#include <QRegExpValidator>
+#include <QRegularExpression>
+#include <QRegularExpressionValidator>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -54,14 +55,14 @@ LockWidget::LockWidget(QWidget *parent)
     code = KmreConfig::Preferences::getInstance()->m_code;
     m_stackedLayout = new QStackedLayout(centralWidget);
     m_stackedLayout->setSpacing(0);
-    m_stackedLayout->setMargin(0);
+    m_stackedLayout->setContentsMargins(0, 0, 0, 0);
     centralWidget->setStyleSheet("QFrame{background:palette(Base);border-radius:6px;}");
     m_title = new QLabel;
     m_title->setAttribute(Qt::WA_TranslucentBackground);
     m_title->setText(tr("Please enter your password"));
     m_line = new QLineEdit;
-    QRegExp rx("([0-9]*$)");
-    QValidator *validator = new QRegExpValidator(rx);
+    QRegularExpression rx("([0-9]*$)");
+    QValidator *validator = new QRegularExpressionValidator(rx);
     m_line->setValidator(validator);
     m_line->setEchoMode(QLineEdit::Password);
     m_Btn0 = new QPushButton;
@@ -263,7 +264,7 @@ void LockWidget::checkkylinid()
     accessManager->get(request);
     QByteArray postData;
 //    postData.append("kylinID=pengdaixin&pwd=Dp448283676..&form=0&validateCode=8888&imgId=kylincloud");
-    postData.append(QString("kylinID=%1&pwd=%2&form=0&validateCode=8888&imgId=kylincloud").arg(m_idline->text()).arg(m_codeline->text()));
+    postData.append(QString("kylinID=%1&pwd=%2&form=0&validateCode=8888&imgId=kylincloud").arg(m_idline->text()).arg(m_codeline->text()).toUtf8());
     QNetworkReply *reply = accessManager->post(request,postData);
     connect(accessManager, &QNetworkAccessManager::finished, this, &LockWidget::finishedSlot);
 }

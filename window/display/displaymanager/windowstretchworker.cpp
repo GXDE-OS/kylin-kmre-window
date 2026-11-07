@@ -27,7 +27,6 @@
 #include <QStatusBar>
 #include <QEvent>
 #include <QMouseEvent>
-#include <QDesktopWidget>
 #include <QGSettings>
 #include <QDebug>
 

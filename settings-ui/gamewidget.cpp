@@ -38,7 +38,6 @@
 #include <QDebug>
 #include <QDir>
 #include <QStandardPaths>
-#include <QDesktopWidget>
 #include <QApplication>
 #include <QMessageBox>
 #include <sys/syslog.h>
@@ -62,8 +61,6 @@ GameWidget::GameWidget(QWidget *parent)
     }
     m_confName = QDir::homePath() + "/.config/kmre/render_gles";
     m_qsettings = new QSettings(m_confName, QSettings::IniFormat, this);
-    m_qsettings->setIniCodec("UTF-8");
-
 //    m_addGameWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_removeGameWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_contentFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -89,11 +86,11 @@ GameWidget::GameWidget(QWidget *parent)
     layout->addWidget(line);
     layout->addWidget(pkgName);
     layout->addStretch();
-//    layout->setMargin(0);
+//    layout->setContentsMargins(0, 0, 0, 0);
     titlebar->setLayout(layout);
     QVBoxLayout *m_vLayout = new QVBoxLayout;
     m_vLayout->setSpacing(0);
-    m_vLayout->setMargin(0);
+    m_vLayout->setContentsMargins(0, 0, 0, 0);
     m_vLayout->addWidget(titlebar);
     m_vLayout->addWidget(m_view);
     centralWidget->setLayout(m_vLayout);
@@ -122,7 +119,7 @@ GameWidget::GameWidget(QWidget *parent)
     //addTabBtn->setStyleSheet("QPushButton{background:transparent;border:none;text-align:center;color:palette(Text);}");//font-size:14px;
     //remomveTabBtn->setStyleSheet("QPushButton{background:transparent;border:none;text-align:center;color:palette(Text);}");//font-size:14px;
     QHBoxLayout *titlelayout = new QHBoxLayout(m_titleWidget);
-    titlelayout->setMargin(0);
+    titlelayout->setContentsMargins(0, 0, 0, 0);
     titlelayout->setSpacing(8);
 //    titlelayout->addStretch();
     titlelayout->addWidget(addTabBtn, 0, Qt::AlignLeft);
@@ -132,7 +129,7 @@ GameWidget::GameWidget(QWidget *parent)
 
     /*QStackedLayout *layout = new QStackedLayout;
     layout->setSpacing(0);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     layout->addWidget(m_removeGameWidget);
     layout->addWidget(m_addGameWidget);
@@ -145,26 +142,26 @@ GameWidget::GameWidget(QWidget *parent)
     QLabel *m_title = new QLabel;
     m_title->setText(tr("Game Setting"));
     m_title->setStyleSheet("QLabel{font-size:18pt;font-style: normal;}");
-    m_title->setMargin(0);
+    m_title->setContentsMargins(0, 0, 0, 0);
     m_astcCheckBox = new QCheckBox();
     m_astcCheckBox->setChecked(false);
     QFont ft;
     QFontMetrics fm(ft);
     QString elided_text = fm.elidedText(tr("Enable ASTC texture support(When turned on, the picture quality is clearer)"), Qt::ElideRight, 500);
     m_astcCheckBox->setText(elided_text);
-    if (fm.width(tr("Enable ASTC texture support(When turned on, the picture quality is clearer)")) > 500) {
+    if (fm.horizontalAdvance(tr("Enable ASTC texture support(When turned on, the picture quality is clearer)")) > 500) {
         m_astcCheckBox->setToolTip(tr("Enable ASTC texture support(When turned on, the picture quality is clearer)"));
     }
     QLabel *m_tiplabel = new QLabel;
     m_tiplabel->setText(tr("When added to the list, the app will enable the Game button feature:"));
     m_tiplabel->setFixedHeight(20);
 //    m_tiplabel->setContentsMargins(8,0,0,0);
-//    m_tiplabel->setMargin(0);
+//    m_tiplabel->setContentsMargins(0, 0, 0, 0);
     QVBoxLayout *mainlayout = new  QVBoxLayout;
 //    mainlayout->setContentsMargins(30,0,39,20);
     mainlayout->setContentsMargins(30, 2, 24, 40);
     mainlayout->addWidget(m_title);
-//    mainlayout->setMargin(0);
+//    mainlayout->setContentsMargins(0, 0, 0, 0);
     mainlayout->setSpacing(0);
     mainlayout->addSpacing(16);
     mainlayout->addWidget(m_astcCheckBox);

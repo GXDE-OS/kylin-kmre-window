@@ -64,8 +64,6 @@ void Preferences::reload()
 {
     std::lock_guard<std::mutex> lk(mMutex);
     mKmreSettings.reset(new QSettings(KmreEnv::GetKmreConfigFile(), QSettings::IniFormat));
-    mKmreSettings->setIniCodec("UTF-8");
-
     reset();
     load();
 }
@@ -182,8 +180,6 @@ Feature::Feature(QObject *parent)
 {
     QString confName = KmreEnv::GetGlobalConfigPath().append("/feature_config.ini");
     settings = new QSettings(confName, QSettings::IniFormat, this);
-    settings->setIniCodec("UTF-8");
-
     initUiFeature();
 }
 

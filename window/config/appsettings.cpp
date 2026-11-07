@@ -563,8 +563,8 @@ void AppSettings::initAndroidConfigFile()
     }
 
     QStringList configFileList;
-    configFileList << mSupportDDSAppListFile.split("/", QString::SkipEmptyParts).back();
-    configFileList << mSupportKmreDataAppListFile.split("/", QString::SkipEmptyParts).back();
+    configFileList << mSupportDDSAppListFile.split("/", Qt::SkipEmptyParts).back();
+    configFileList << mSupportKmreDataAppListFile.split("/", Qt::SkipEmptyParts).back();
 
     for (auto configFile : configFileList) {
         QString srcFile = srcPath + configFile;

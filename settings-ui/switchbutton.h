@@ -61,7 +61,7 @@ protected:
     void mousePressEvent(QMouseEvent *);
     void resizeEvent(QResizeEvent *);
     void paintEvent(QPaintEvent *);
-    void enterEvent(QEvent *event);
+    void enterEvent(QEnterEvent *event);
     void leaveEvent(QEvent *event);
 
     void drawBg(QPainter * painter);

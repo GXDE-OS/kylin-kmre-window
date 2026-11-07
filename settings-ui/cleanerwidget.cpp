@@ -56,7 +56,7 @@ CleanerWidget::CleanerWidget(QWidget *parent) :
     m_mainFrame = new QFrame;
     m_stackedLayout = new QStackedLayout;
     m_stackedLayout->setSpacing(0);
-    m_stackedLayout->setMargin(0);
+    m_stackedLayout->setContentsMargins(0, 0, 0, 0);
 
     m_clearButton = new QPushButton;
     m_clearButton->setFixedSize(120,36);
@@ -64,7 +64,7 @@ CleanerWidget::CleanerWidget(QWidget *parent) :
     QFontMetrics fm(ft);
     QString elided_text = fm.elidedText(tr("Delete all idle images"), Qt::ElideRight, 90);
     m_clearButton->setText(elided_text);
-    if (fm.width(tr("Delete all idle images")) > 110) {
+    if (fm.horizontalAdvance(tr("Delete all idle images")) > 110) {
         m_clearButton->setToolTip(tr("Delete all idle images"));
     }
     m_clearButton->setVisible(false);
@@ -146,7 +146,7 @@ CleanerWidget::CleanerWidget(QWidget *parent) :
     QVBoxLayout *mainLayout = new QVBoxLayout(m_mainFrame);
     mainLayout->setContentsMargins(30,2,39,40);
     mainLayout->addLayout(titlelayout);
-    //mainLayout->setMargin(0);
+    //mainLayout->setContentsMargins(0, 0, 0, 0);
     //mainLayout->setSpacing(10);
     //mainLayout->addWidget(m_title, 0, Qt::AlignHCenter);
 //    mainLayout->addWidget(m_null, 0, Qt::AlignCenter);

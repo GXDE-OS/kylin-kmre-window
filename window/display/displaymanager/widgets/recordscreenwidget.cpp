@@ -243,6 +243,17 @@ void RecordingToolPanel::showPanel(bool show)
 	}
 }
 
+static bool isCompositingManagerRunning()
+{
+    Display *d = QX11Info::display();
+    if (!d) {
+        return false;
+    }
+    const QByteArray atomName = "_NET_WM_CM_S" + QByteArray::number(XDefaultScreen(d));
+    Atom atom = XInternAtom(d, atomName.constData(), False);
+    return XGetSelectionOwner(d, atom) != None;
+}
+
 static std::vector<QRect> GetScreenGeometries() 
 {
 	std::vector<QRect> screen_geometries;
@@ -269,7 +280,7 @@ static QPoint GetMousePhysicalCoordinates()
 	int root_x, root_y;
 	int win_x, win_y;
 	unsigned int mask_return;
-	XQueryPointer(QX11Info::display(), QX11Info::appRootWindow(), &root, &child, &root_x, &root_y, &win_x, &win_y, &mask_return);
+	XQueryPointer(QX11Info::display(), XDefaultRootWindow(QX11Info::display()), &root, &child, &root_x, &root_y, &win_x, &win_y, &mask_return);
 	return QPoint(root_x, root_y);
 }
 
@@ -365,7 +376,7 @@ void RecordingFrameWindow::UpdateMask()
         setMask(QRegion(0, 0, width(), height()).subtracted(QRegion(BORDER_WIDTH, BORDER_WIDTH, width() - 2 * BORDER_WIDTH, height() - 2 * BORDER_WIDTH)));
         setWindowOpacity(1.0);
     } else {
-        if(QX11Info::isCompositingManagerRunning()) {
+        if (isCompositingManagerRunning()) {
             clearMask();
             setWindowOpacity(0.5);
         } else {
@@ -1184,7 +1195,7 @@ bool RecordScreenWidget::calculateRubberBandRect()
 	Window selected_window;
 	int x, y;
 
-	if (XTranslateCoordinates(QX11Info::display(), QX11Info::appRootWindow(), QX11Info::appRootWindow(), mouse_physical.x(), mouse_physical.y(), &x, &y, &selected_window)) {
+	if (XTranslateCoordinates(QX11Info::display(), XDefaultRootWindow(QX11Info::display()), XDefaultRootWindow(QX11Info::display()), mouse_physical.x(), mouse_physical.y(), &x, &y, &selected_window)) {
 		XWindowAttributes attributes;
 		if (selected_window != None && XGetWindowAttributes(QX11Info::display(), selected_window, &attributes)) {
 
@@ -1205,7 +1216,7 @@ bool RecordScreenWidget::calculateRubberBandRect()
 					if(items == 4 && bytes_left == 0 && actual_format == 32) { // format 32 means 'long', even if long is 64-bit ...
 						Window child;
 						// the attributes of the real window only store the *relative* position which is not what we need, so use XTranslateCoordinates again
-						if(XTranslateCoordinates(QX11Info::display(), real_window, QX11Info::appRootWindow(), 0, 0, &x, &y, &child)
+						if(XTranslateCoordinates(QX11Info::display(), real_window, XDefaultRootWindow(QX11Info::display()), 0, 0, &x, &y, &child)
 									&& XGetWindowAttributes(QX11Info::display(), real_window, &attributes)) {
 							m_select_window_inner_rect = QRect(x, y, attributes.width, attributes.height);
 							m_select_window_outer_rect = m_select_window_inner_rect.adjusted(-data[0], -data[2], data[1], data[3]);

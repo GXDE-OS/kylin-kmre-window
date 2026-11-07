@@ -21,7 +21,7 @@
 #define EGL_DISPLAY_HELPER_H
 
 #include <QObject>
-#include <QMutex>
+#include <QRecursiveMutex>
 #include <QMutexLocker>
 
 #include <memory>
@@ -64,7 +64,7 @@ private:
     int mCurrentOrientation;
     bool mIsReadyForRender;
     sp<EglDisplayUtils> mDisplayUtils;
-    QMutex mUtilsMutex;
+    QRecursiveMutex mUtilsMutex;
     EglDisplayWidget* mDisplayWidget;
 };
 

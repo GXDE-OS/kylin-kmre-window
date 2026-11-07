@@ -92,7 +92,7 @@ DockerIpWidget::DockerIpWidget(QWidget * parent)
     //m_group->setStyleSheet("QWidget{border-radius:6px;background:palette(Window);}");
 
     QHBoxLayout *hlayout = new QHBoxLayout;
-    hlayout->setMargin(0);
+    hlayout->setContentsMargins(0, 0, 0, 0);
     hlayout->setSpacing(30);
     hlayout->addStretch();
     hlayout->addWidget(m_okBtn, 0, Qt::AlignVCenter);
@@ -112,7 +112,7 @@ DockerIpWidget::DockerIpWidget(QWidget * parent)
     layout->setContentsMargins(30,2,39,40);
     layout->addWidget(m_title);
     layout->setSpacing(10);
-    //layout->setMargin(10);
+    //layout->setContentsMargins(10, 10, 10, 10);
     layout->addWidget(m_group);
     layout->addSpacing(10);
     layout->addLayout(hlayout);

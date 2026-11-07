@@ -100,7 +100,7 @@ MouseCrossHairKey::MouseCrossHairKey(KmreWindow* window)
     connect(mSensiWidget,SIGNAL(currentSliderValue(int)),this,SLOT(updateComboFreq(int)));
 
     QVBoxLayout* mContainLayout = new QVBoxLayout();
-    mContainLayout->setMargin(0);
+    mContainLayout->setContentsMargins(0, 0, 0, 0);
     mContainLayout->setSpacing(2);
     //mContainLayout->addStretch();
     mContainLayout->addLayout(mHlayout);

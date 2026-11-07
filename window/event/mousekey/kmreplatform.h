@@ -19,7 +19,7 @@
 #define KMRE_PLATFORM_H_
 
 #include <QMap>
-#include <QMutex>
+#include <QRecursiveMutex>
 #include <memory>
 #include "eventdata.h"
 
@@ -49,7 +49,7 @@ private:
   std::shared_ptr<kmre::input::Device> screen_;
   std::shared_ptr<kmre::input::Device> mouse_;
   std::shared_ptr<kmre::input::Device> keyboard_;
-  QMutex mutex;
+  QRecursiveMutex mutex;
 };
 
 #endif // KMRE_PLATFORM_H_

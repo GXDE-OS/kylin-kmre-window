@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QRegularExpression>
 #include "networkconfig.h"
 
 #include <QSettings>
@@ -28,8 +29,8 @@ namespace network {
 
 static bool isIpAddressValid(const QString ipAddr)
 {
-    QRegExp regExp("\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
-    if (regExp.exactMatch(ipAddr)) {
+    QRegularExpression regExp("^\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b$");
+    if (regExp.match(ipAddr).hasMatch()) {
         return true;
     }
 
@@ -50,7 +51,6 @@ QString NetworkConfig::getValueFromConfig(const QString& group, const QString& k
     QString value;
     if (QFile::exists(mConfigFilePath)) {
         QSettings settings(mConfigFilePath, QSettings::IniFormat);
-        settings.setIniCodec("UTF-8");
         if (settings.childGroups().contains(group)) {
             settings.beginGroup(group);
             value = settings.value(key, QString("")).toString();
@@ -64,8 +64,6 @@ QString NetworkConfig::getValueFromConfig(const QString& group, const QString& k
 void NetworkConfig::setValueToConfig(const QString& group, const QString& key, const QString& value)
 {
     QSettings settings(mConfigFilePath, QSettings::IniFormat);
-    settings.setIniCodec("UTF-8");
-
     settings.beginGroup(group);
     settings.setValue(key, value);
     settings.endGroup();

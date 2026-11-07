@@ -152,7 +152,7 @@ protected:
     void moveEvent(QMoveEvent *event) Q_DECL_OVERRIDE;
     void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
-    bool nativeEvent(const QByteArray &eventType, void *message, long *) Q_DECL_OVERRIDE;
+    bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) override;
     void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 private:

@@ -38,7 +38,7 @@ NetMaskItem::NetMaskItem(QFrame *parent)
 
     QHBoxLayout *layout = new QHBoxLayout();
     layout->setSpacing(0);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_titleLabel);
     layout->addSpacing(30);
     layout->addWidget(m_spinBox);
@@ -61,7 +61,7 @@ void NetMaskItem::setTitle(const QString &title)
     QFontMetrics fm(ft);
     QString elided_text = fm.elidedText(title, Qt::ElideRight, 150);
     m_titleLabel->setText(elided_text);
-    if (fm.width(title) > m_titleLabel->width()) {
+    if (fm.horizontalAdvance(title) > m_titleLabel->width()) {
         m_titleLabel->setToolTip(title);
     }
 }

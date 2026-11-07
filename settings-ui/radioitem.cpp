@@ -57,7 +57,11 @@ RadioItem::RadioItem(QFrame *parent)
     m_btn1->setFocusPolicy(Qt::NoFocus);
     m_btn2->setFocusPolicy(Qt::NoFocus);
 
-    connect(m_buttonGroup, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(onButtonClicked(QAbstractButton*)));
+    connect(m_buttonGroup, &QButtonGroup::idClicked, this, [this](int id) {
+        if (QAbstractButton *button = m_buttonGroup->button(id)) {
+            onButtonClicked(button);
+        }
+    });
 }
 
 const QString RadioItem::currentText() const

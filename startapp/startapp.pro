@@ -16,9 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-QT       += core gui dbus xml
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets x11extras gui-private
+QT       += core gui dbus xml widgets gui-private
 
 TARGET = startapp
 TEMPLATE = app
@@ -108,10 +106,9 @@ RESOURCES += \
     qsrc.qrc
 
 # for wayland
-# libkf5wayland-dev libwayland-dev
+# libwayland-dev
 DEFINES += UKUI_WAYLAND
 contains(DEFINES, UKUI_WAYLAND) {
-    QT += KWaylandClient
     PKGCONFIG += wayland-client
     SOURCES += ukui-wayland/ukui-decoration-manager.cpp ukui-wayland/ukui-decoration-core.c
     HEADERS += ukui-wayland/ukui-decoration-manager.h ukui-wayland/ukui-decoration-client.h

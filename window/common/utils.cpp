@@ -30,7 +30,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QCameraInfo>
+#include <QMediaDevices>
+#include <QCameraDevice>
 #include <QDBusInterface>
 #include <QDBusConnection>
 #include <QSettings>
@@ -666,17 +667,17 @@ QString getFixedDefaultCameraDevice(const QString &deviceName)
     QString defaultCameraDevice = "";
 
     if (deviceName.isNull() || deviceName.isEmpty()) {
-        foreach (const QCameraInfo &cameraInfo, QCameraInfo::availableCameras()) {
-            defaultCameraDevice = cameraInfo.deviceName();
-            break;
+        const QList<QCameraDevice> cameras = QMediaDevices::videoInputs();
+        if (!cameras.isEmpty()) {
+            defaultCameraDevice = cameras.first().id();
         }
     }
     else {
         bool exits = false;
         int i = 0;
-        QList<QCameraInfo> cameras = QCameraInfo::availableCameras();
-        for (QList<QCameraInfo>::Iterator it = cameras.begin(); it != cameras.end(); ++it) {
-            QString name = it->deviceName();
+        const QList<QCameraDevice> cameras = QMediaDevices::videoInputs();
+        for (QList<QCameraDevice>::ConstIterator it = cameras.constBegin(); it != cameras.constEnd(); ++it) {
+            QString name = it->id();
             if (i == 0) {
                 defaultCameraDevice = name;
             }
@@ -761,7 +762,7 @@ void clearApkFiles()
         QFileInfo srcInfo;
         QString destFilepath;
         while (iter.hasNext()) {
-            srcInfo = iter.next();
+            srcInfo = QFileInfo(iter.next());
             destFilepath = iter.filePath();
             if (srcInfo.isFile() && srcInfo.suffix().toLower() == "apk") {
                 if (QFile::exists(destFilepath)) {
@@ -849,8 +850,6 @@ bool getAppNameFromDesktop(const QString &pkgName, QString &appName_en, QString 
     QString desktopFilePath = homeDir + "/.local/share/applications/" + pkgName + ".desktop";
 
     QSettings settings(desktopFilePath, QSettings::IniFormat);
-    settings.setIniCodec("UTF-8");
-
     appName_en = settings.value("Desktop Entry/Name", "").toString();
     appName_zh = settings.value("Desktop Entry/Name[zh_CN]", "").toString();
 
@@ -872,7 +871,7 @@ void showUserGuide()
 
 QString getRealPkgName(const QString &pkgName)
 {
-    QStringList nameList = pkgName.split("+", QString::SkipEmptyParts);
+    QStringList nameList = pkgName.split("+", Qt::SkipEmptyParts);
     if (nameList.size() >= 1) {
         return nameList.at(0);
     }
@@ -898,7 +897,7 @@ std::tuple<bool, QString> getElideText(const QString& origString, const uint32_t
     QFont ft;
     QFontMetrics fm(ft);
     QString elideText = fm.elidedText(origString, mode, maxLength);
-    if (fm.width(origString) > maxLength) {
+    if (fm.horizontalAdvance(origString) > maxLength) {
         elided = true;
     }
 

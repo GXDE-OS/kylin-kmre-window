@@ -27,6 +27,7 @@
 #include "preinstallappmanager.h"
 
 #include <QApplication>
+#include <QScreen>
 #include <QThread>
 #include <QProcess>
 #include <QString>
@@ -36,7 +37,6 @@
 #include <QJsonParseError>
 #include <QFile>
 #include <QSettings>
-#include <QTextCodec>
 #include <QTranslator>
 #include <QLocale>
 #include <QLibraryInfo>
@@ -185,8 +185,8 @@ void showMsgForBinderModule()
         layout->addWidget(m_tip);
         layout->addStretch();
         information->show();
-        QDesktopWidget* m = QApplication::desktop();
-        QRect desk_rect = m->screenGeometry(m->screenNumber(QCursor::pos()));
+        QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
+        QRect desk_rect = screen ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
         int desk_x = desk_rect.width();
         int desk_y = desk_rect.height();
         int x = information->width();
@@ -207,8 +207,8 @@ void showMsgForBinderModule()
         layout->addWidget(m_tip);
         layout->addStretch();
         information->show();
-        QDesktopWidget* m = QApplication::desktop();
-        QRect desk_rect = m->screenGeometry(m->screenNumber(QCursor::pos()));
+        QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
+        QRect desk_rect = screen ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
         int desk_x = desk_rect.width();
         int desk_y = desk_rect.height();
         int x = information->width();
@@ -223,8 +223,6 @@ int main(int argc, char *argv[])
 
     // 适配4K屏
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))

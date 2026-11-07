@@ -43,7 +43,7 @@ JoystickSetWidget::JoystickSetWidget(QWidget *parent) : QWidget(parent)
 //    font_button.setPointSize(8);
 //    mKeySetLabel->setFont(font_label);
 //    mKeySetLabel->setStyleSheet("QLabel{background-color:rgb(220,220,220);}");
-//    mKeySetLabel->setMargin(5);
+//    mKeySetLabel->setContentsMargins(5, 5, 5, 5);
 
     QFont font_button;
     font_button.setPointSize(DEFAULT_BUTTON_LABEL_TEXT_SIZE);
@@ -163,7 +163,7 @@ JoystickSetWidget::JoystickSetWidget(QWidget *parent) : QWidget(parent)
     autolayout->setAlignment(autoLabel,Qt::AlignHCenter);
 
     QGridLayout* mGridLayout = new QGridLayout();
-    mGridLayout->setMargin(8); //控件到布局周围一圈的距离
+    mGridLayout->setContentsMargins(8, 8, 8, 8); //控件到布局周围一圈的距离
     mGridLayout->setHorizontalSpacing(0);
     mGridLayout->setVerticalSpacing(10);
     mGridLayout->addLayout(singleKeylayout, 0, 0, 1, 1);
@@ -173,7 +173,7 @@ JoystickSetWidget::JoystickSetWidget(QWidget *parent) : QWidget(parent)
     mGridLayout->addLayout(rightJoysticklayout, 1, 1, 1, 1);
 
 //    QVBoxLayout* mSetKeyVBoxLayout = new QVBoxLayout();
-////    mGridLayout->setMargin(0);
+////    mGridLayout->setContentsMargins(0, 0, 0, 0);
 ////    mGridLayout->setSpacing(0);   //这个设置会影响他的子布局的该属性设置
 //    mSetKeyVBoxLayout->addWidget(mKeySetLabel);
 //    mSetKeyVBoxLayout->addLayout(mGridLayout);
@@ -235,7 +235,7 @@ JoystickSetWidget::JoystickSetWidget(QWidget *parent) : QWidget(parent)
     });
 
 //    QGridLayout* mGridLayoutOther = new QGridLayout();
-//    mGridLayoutOther->setMargin(8);
+//    mGridLayoutOther->setContentsMargins(8, 8, 8, 8);
 //    mGridLayoutOther->setHorizontalSpacing(0);
 //    mGridLayoutOther->setVerticalSpacing(10);
 //    mGridLayoutOther->addWidget(mKeyTipsLabel,0,0,1,4,Qt::AlignLeft);
@@ -255,7 +255,7 @@ JoystickSetWidget::JoystickSetWidget(QWidget *parent) : QWidget(parent)
 //    QLabel* mOtherLabel = new QLabel(this);
 //    mOtherLabel->setText(tr("辅助设置"));
 //    mOtherLabel->setFont(font_label);
-//    mOtherLabel->setMargin(5);
+//    mOtherLabel->setContentsMargins(5, 5, 5, 5);
 //    mOtherLabel->setStyleSheet("QLabel{background-color:rgb(220,220,220);}");
 
 //    QVBoxLayout* mOtherVBoxLayout = new QVBoxLayout();
@@ -272,7 +272,7 @@ JoystickSetWidget::JoystickSetWidget(QWidget *parent) : QWidget(parent)
     mRightVBoxLayout->addStretch();
     mRightVBoxLayout->addLayout(mBtnBoxHBoxLayout);
     mRightVBoxLayout->addSpacing(25);
-    mRightVBoxLayout->setMargin(0);
+    mRightVBoxLayout->setContentsMargins(0, 0, 0, 0);
     mRightVBoxLayout->setSpacing(0);
 
     this->setLayout(mRightVBoxLayout);

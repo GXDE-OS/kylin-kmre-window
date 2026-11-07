@@ -100,12 +100,10 @@ static void setApplicationEnv()
 
     // 适配4K屏
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     // 修复图标模糊
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps); 
     QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 #endif
 
@@ -123,7 +121,7 @@ static void setApplicationEnv()
         QTextStream stream(&env_file);
         QString line = stream.readLine();
         while(!line.isNull()) {
-            QStringList str_list = line.split("=", QString::SkipEmptyParts);
+            QStringList str_list = line.split("=", Qt::SkipEmptyParts);
             if (str_list.size() == 2) {
                 QString variable = str_list.at(0);
                 QString value = str_list.at(1);

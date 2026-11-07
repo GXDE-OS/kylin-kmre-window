@@ -56,7 +56,7 @@ public slots:
     void onRemove();
 
 protected:
-    void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void enterEvent(QEnterEvent *event) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 

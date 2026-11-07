@@ -97,8 +97,6 @@ DisplayModeWidget::DisplayModeWidget(const QString &displayType, const QString &
 
     m_confName = QDir::homePath() + "/.config/kmre/kmre.ini";
     m_qsettings = new QSettings(m_confName, QSettings::IniFormat, this);
-    m_qsettings->setIniCodec("UTF-8");
-
     //setTitleTip(tr("Display mode(requires restart)"));
 
     QFrame *centralWidget = new QFrame;
@@ -120,7 +118,7 @@ DisplayModeWidget::DisplayModeWidget(const QString &displayType, const QString &
     this->initRadioBtns();
 
 //    QHBoxLayout *hlayout = new QHBoxLayout;
-//    hlayout->setMargin(0);
+//    hlayout->setContentsMargins(0, 0, 0, 0);
 //    hlayout->setSpacing(0);
 ////    hlayout->addStretch();
 //    hlayout->addWidget(m_rebootBtn, 0, Qt::AlignLeft);
@@ -132,10 +130,10 @@ DisplayModeWidget::DisplayModeWidget(const QString &displayType, const QString &
     QLabel *m_displaytitle = new QLabel;
     m_displaytitle->setText(tr("Display mode"));
     m_displaytitle->setStyleSheet("QLabel{color:#A1A1A1;}");
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->addSpacing(16);
     layout->addWidget(m_displaytitle);
-//    layout->setMargin(10);
+//    layout->setContentsMargins(10, 10, 10, 10);
 //    layout->setSpacing(24);
     layout->addWidget(m_radiosWidget);
 //    layout->addSpacing(24);
@@ -146,7 +144,7 @@ DisplayModeWidget::DisplayModeWidget(const QString &displayType, const QString &
 
     QVBoxLayout *mainlayout = new QVBoxLayout;
     mainlayout->setSpacing(0);
-    mainlayout->setMargin(0);
+    mainlayout->setContentsMargins(0, 0, 0, 0);
 //    mainlayout->setContentsMargins(30,2,30,40);
 //    mainlayout->addWidget(m_title);
     mainlayout->addWidget(displayWidget);
@@ -185,20 +183,7 @@ DisplayModeWidget::DisplayModeWidget(const QString &displayType, const QString &
 //    this->enablePage();
     this->initCurrentValue();
 
-#if QT_VERSION <= QT_VERSION_CHECK(5, 12, 0)
-    connect(m_btnGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), [=](QAbstractButton * button) {
-#else
-    connect(m_btnGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), [=](QAbstractButton *button) {
-#endif
-        if (button->isChecked()) {
-        }
-    });
-
-#if QT_VERSION <= QT_VERSION_CHECK(5, 12, 0)
-    connect(m_btnGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), [=](int id) {
-#else
-    connect(m_btnGroup, QOverload<int>::of(&QButtonGroup::buttonClicked), [=](int id) {
-#endif
+    connect(m_btnGroup, &QButtonGroup::idClicked, [=](int id) {
         for (int i=0; i<m_itemList.length(); i++) {
             if (i == id) {
                 m_itemList.at(i)->setConfirmButtonVisible(true);
@@ -255,7 +240,7 @@ void DisplayModeWidget::initRadioBtns()
 {
     if (m_nameList.length() == m_descList.length()) {
         QVBoxLayout *layout = new QVBoxLayout;
-        layout->setMargin(0);
+        layout->setContentsMargins(0, 0, 0, 0);
         layout->setSpacing(0);
 
         for (int i=0; i<m_nameList.length();i++) {
@@ -272,7 +257,7 @@ void DisplayModeWidget::initRadioBtns()
 
     /*
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(10);
     int i = 0;
     for (QMap<QString,QString>::ConstIterator it=m_modeMap.constBegin(); it!=m_modeMap.constEnd(); ++it) {//for (auto it(m_modeMap.begin()); it != m_modeMap.end(); ++it)

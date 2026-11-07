@@ -55,7 +55,7 @@ SettingScrollContent::SettingScrollContent(QWidget *parent)
     QScroller::grabGesture(m_scrollArea, QScroller::LeftMouseButtonGesture);
 
     QHBoxLayout *titleLayout = new QHBoxLayout;
-    titleLayout->setMargin(0);
+    titleLayout->setContentsMargins(0, 0, 0, 0);
     titleLayout->setSpacing(0);
     titleLayout->addWidget(m_title);
     QVBoxLayout *centralLayout = new QVBoxLayout;
@@ -117,7 +117,10 @@ bool SettingScrollContent::eventFilter(QObject *watched, QEvent *event)
 
     if (m_content && watched == m_scrollArea->viewport() && event->type() == QEvent::Wheel) {
         const QWheelEvent *wheel = static_cast<QWheelEvent*>(event);
-        QWheelEvent *newEvent =  new QWheelEvent(wheel->pos(), wheel->delta(), wheel->buttons(), wheel->modifiers(), wheel->orientation());
+        QWheelEvent *newEvent = new QWheelEvent(wheel->position(), wheel->globalPosition(),
+                                                wheel->pixelDelta(), wheel->angleDelta(),
+                                                wheel->buttons(), wheel->modifiers(),
+                                                wheel->phase(), wheel->inverted());
         qApp->postEvent(this, newEvent);
         return true;
     }
@@ -143,7 +146,7 @@ void SettingScrollContent::stopScroll()
 
 void SettingScrollContent::wheelEvent(QWheelEvent *e)
 {
-    int offset = - e->delta();
+    int offset = - e->angleDelta().y();
 
     if (m_wheelAnimation->state() == QPropertyAnimation::Running) {
         m_speedPeriod += 0.02;

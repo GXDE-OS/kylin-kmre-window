@@ -81,7 +81,7 @@ DirectTypeBaseKey::DirectTypeBaseKey(KmreWindow* window,int type)
     layout->addWidget(mEditBottom, 2, 1, 1, 1, Qt::AlignCenter);
     layout->addWidget(mEditLeft, 1, 0, 1, 1, Qt::AlignCenter);
     layout->addWidget(mEditRight, 1, 2, 1, 1, Qt::AlignCenter);
-    layout->setMargin(5);
+    layout->setContentsMargins(5, 5, 5, 5);
     layout->setSpacing(5);
     mBgBtn->setLayout(layout);
 

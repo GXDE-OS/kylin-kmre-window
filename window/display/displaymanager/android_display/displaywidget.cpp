@@ -26,7 +26,7 @@
 #include <QDebug>
 #include <QApplication>
 #include <QGuiApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QtDBus/QDBusReply>
 #include <QInputMethodEvent>
 #include <QInputMethod>
@@ -194,9 +194,9 @@ QPoint DisplayWidget::cursorPoint()
     }
 
     //如果输入坐标位置 + 50 > 屏幕分辨率端高度，此时输入法框会盖住输入框，需要进行如下处理，其中使用的50和150待优化
-    const QDesktopWidget *desktop = QApplication::desktop();
-    if (desktop) {
-        QRect rect = desktop->screenGeometry();
+    QScreen *screen = QGuiApplication::primaryScreen();
+    if (screen) {
+        QRect rect = screen->geometry();
         if (point.y() + 50 > rect.height()) {
             point.setY(point.y() - 150);
         }
@@ -771,17 +771,17 @@ bool DisplayWidget::eventFilter(QObject *watched, QEvent *event)
 
         scrollCount++;
         QWheelEvent *we = static_cast<QWheelEvent*>(event);
-        deltaAverage += we->delta();
-        //syslog(LOG_DEBUG, "[DisplayWidget][%s] delta: %d", __func__, we->delta());
+        deltaAverage += we->angleDelta().y();
+        //syslog(LOG_DEBUG, "[DisplayWidget][%s] delta: %d", __func__, we->angleDelta().y());
         long long currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
         if (qAbs(currentTime - scrollTime) > 500) {
             if (this->scrollTimer->isActive()) {
                 this->scrollTimer->stop();
             }
             this->scrollTimer->start(60);
-            deltaAverage = we->delta();
-            xPos = we->x();
-            yPos = we->y();
+            deltaAverage = we->angleDelta().y();
+            xPos = we->position().x();
+            yPos = we->position().y();
             scrollTime = currentTime;
             scrollCount = 0;
         }

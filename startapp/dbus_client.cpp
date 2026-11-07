@@ -231,7 +231,7 @@ QStringList DBusClient::GetRunningAppList()
         valueStr = response.arguments().takeFirst().toString();
     }
 
-    return valueStr.split(",", QString::SkipEmptyParts);
+    return valueStr.split(",", Qt::SkipEmptyParts);
 }
 
 void DBusClient::LaunchApp(const QString& pkgName, int width, int height)

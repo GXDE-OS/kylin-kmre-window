@@ -25,11 +25,13 @@
 
 #include <QObject>
 #include <QWindow>
-#include <QMap>
-#include <QSet>
-#include <KWayland/Client/plasmawindowmanagement.h>
-#include <KWayland/Client/plasmashell.h>
-#include <KWayland/Client/shell.h>
+
+/*
+ * Replacement for the discontinued KF5 KWayland client library, implemented
+ * on top of libwayland-client and the org_kde_plasma_shell /
+ * org_kde_plasma_window_management protocols (protocol XMLs vendored in this
+ * directory).  The public API mirrors the KWayland subset that KMRE uses.
+ */
 
 class PlasmaShellManager : public QObject
 {
@@ -37,15 +39,32 @@ class PlasmaShellManager : public QObject
 public:
     static PlasmaShellManager *getInstance();
 
+    // Mirrors the org_kde_plasma_surface role enum (previously
+    // KWayland::Client::PlasmaShellSurface::Role).
+    enum class SurfaceRole
+    {
+        Normal = 0,
+        Desktop = 1,
+        Panel = 2,
+        OnScreenDisplay = 3,
+        Notification = 4,
+        ToolTip = 5,
+        CriticalNotification = 6,
+        AppletPopup = 7
+    };
+
     bool setAppWindowActive(quint32 id);
     bool setAppWindowKeepAbove(quint32 id, bool keep);
     quint32 takeWindowId(QString title);
     bool setMaximized(QWindow *window);
-    bool setRole(QWindow *window, KWayland::Client::PlasmaShellSurface::Role role);
+    bool setRole(QWindow *window, SurfaceRole role);
     bool setPos(QWindow *window, const QPoint &pos);
     bool supportPlasmaShell();
     bool supportShell();
     bool supportPlasmaWindowManagement();
+
+    // Also used by the wayland event callbacks.
+    void removeUnmappedWindow(quint32 id);
 
 signals:
     void windowAdded();
@@ -53,15 +72,6 @@ signals:
 
 private:
     explicit PlasmaShellManager(QObject *parent = nullptr);
-    void removeUnmappedWindow(quint32 id);
-
-    KWayland::Client::PlasmaShell *m_plasmaShell = nullptr;
-    KWayland::Client::Shell *m_shell = nullptr;
-    KWayland::Client::PlasmaWindowManagement *m_windowManager = nullptr;
-
-    QMap<quint32, KWayland::Client::PlasmaWindow*> m_appWindows;
-    QSet<quint32> m_usedAppWindowIds;
-
 };
 
 #endif // PLASMASHELLMANAGER_H

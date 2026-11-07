@@ -35,7 +35,7 @@ public:
     void setOffset(int x_offset, int y_offset);
 
 protected:
-    void enterEvent(QEvent *) Q_DECL_OVERRIDE;
+    void enterEvent(QEnterEvent *) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;

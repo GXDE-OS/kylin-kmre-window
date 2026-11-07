@@ -292,7 +292,7 @@ void TitleBar::initShotMenu()
 void TitleBar::initUI()
 {
     m_layout = new QHBoxLayout(this);
-    m_layout->setContentsMargins(0, 0, 0, 0);//m_layout->setMargin(0);
+    m_layout->setContentsMargins(0, 0, 0, 0);//m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
     this->setLayout(m_layout);
 
@@ -347,7 +347,7 @@ void TitleBar::updateTitleName()
     //         __func__, parentWidget()->width(), titleMaxLength);
     
     while (titleName.length() > 0) {
-        int titleLength = QFontMetrics(font()).width(titleName);
+        int titleLength = QFontMetrics(font()).horizontalAdvance(titleName);
         if (titleLength > titleMaxLength) {
             titleName.remove(titleName.length() - 1, 1);
             needAppend = true;
@@ -488,7 +488,7 @@ bool TitleBar::event(QEvent *e)
             xEvent.xclient.data.l[4] = 0;
 
             XUngrabPointer(display, CurrentTime);
-            XSendEvent(display, QX11Info::appRootWindow(QX11Info::appScreen()),
+            XSendEvent(display, XDefaultRootWindow(display),
                         False, SubstructureNotifyMask | SubstructureRedirectMask,
                         &xEvent);
             XFlush(display);

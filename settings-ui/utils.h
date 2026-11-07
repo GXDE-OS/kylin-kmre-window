@@ -23,7 +23,6 @@
 #include <QApplication>
 #include <QWidget>
 #include <vector>
-#include <QDesktopWidget>
 #include <QLockFile>
 #include <tuple>
 

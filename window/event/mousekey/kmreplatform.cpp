@@ -36,7 +36,7 @@ KmrePlatform::KmrePlatform(
     const uint32_t width, const uint32_t height, QObject *parent)
     : QObject(parent),
      input_manager_(input_manager),
-     mutex(QMutex::Recursive) {
+     mutex() {
     screen_ = input_manager->create_device();
     screen_->set_name("kmre_touchscreen");
     screen_->set_driver_version(1);

@@ -157,8 +157,6 @@ void PreInstallAppManager::preInstallApks()
         {
             QString apkConfFilePath = apkFilesPath.absoluteFilePath(apkConfFileName);
             QSettings apkConf(apkConfFilePath, QSettings::IniFormat);
-            apkConf.setIniCodec("UTF-8");
-
             PreInstallApkConf conf;
             conf.pkgName = pkgName;
             apkConf.beginGroup("desktop");

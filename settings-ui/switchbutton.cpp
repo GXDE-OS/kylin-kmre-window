@@ -234,7 +234,7 @@ void SwitchButton::resizeEvent(QResizeEvent *){
     update();
 }
 
-void SwitchButton::enterEvent(QEvent *event) {
+void SwitchButton::enterEvent(QEnterEvent *event) {
     bgColorOn = bgHoverOnColor;
     bgColorOff = bgHoverOffColor;
 

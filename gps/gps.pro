@@ -64,7 +64,7 @@ contains( DEFINES, SINGLE_INSTANCE ) {
 
 # 配置gsettings
 CONFIG += link_pkgconfig
-PKGCONFIG += gsettings-qt
+PKGCONFIG += gsettings-qt6
 settings.files += \
     $$PWD/data/org.kylin.gps.gschema.xml
 settings.path = /usr/share/glib-2.0/schemas/

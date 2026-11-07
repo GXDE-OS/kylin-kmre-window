@@ -206,7 +206,7 @@ void AdvancedWidget::slotUninstallKmre()
 void AdvancedWidget::slotReadProgress()
 {
     QString output = mUninstallProcess->readAllStandardOutput();
-    QStringList infoList = output.split("\n", QString::SkipEmptyParts);
+    QStringList infoList = output.split("\n", Qt::SkipEmptyParts);
 
     for (auto &info : infoList) {
         qDebug() << info;

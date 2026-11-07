@@ -57,7 +57,7 @@ AddGameWidget::AddGameWidget(QWidget * parent)
     , m_okButton(new QPushButton)
 {
     QPalette pal = palette();
-    pal.setColor(QPalette::Background, QColor(0x00,0xff,0x00,0x00));
+    pal.setColor(QPalette::Window, QColor(0x00,0xff,0x00,0x00));
     setPalette(pal);
 
     this->addItem();

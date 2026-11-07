@@ -39,7 +39,6 @@ Preferences::Preferences()
 
     QString confName = QDir::homePath() + "/.config/kmre/kmre.ini";
     m_settings = new QSettings(confName, QSettings::IniFormat);
-    m_settings->setIniCodec("UTF-8");
     initInfo();
 
     reset();

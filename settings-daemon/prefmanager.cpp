@@ -266,7 +266,7 @@ bool copyFolder(const QString src_dir, const QString& dest_dir, bool recursive)
     }
 
     while (ok && iter.hasNext()) {
-        src_info = iter.next();
+        src_info = QFileInfo(iter.next());
         dest_filepath = iter.filePath().replace(src_dir, dest_dir);
         if (src_info.isDir()) {
             if (!QDir(dest_filepath).exists()) {
@@ -559,7 +559,7 @@ bool PrefManager::setKmreAutoStart(const QString &checked)
                 "X-GNOME-Autostart-Delay=8\n"
                 "NoDisplay=true\n"
                 "Categories=\n"
-                << endl;
+                << Qt::endl;
             out.flush();
             file.close();
             ret = true;

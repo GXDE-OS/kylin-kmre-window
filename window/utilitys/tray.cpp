@@ -27,6 +27,7 @@
 #include <QSystemTrayIcon>
 #include <QProcess>
 #include <QMenu>
+#include <QFile>
 
 
 Tray::Tray(KmreWindow* window)

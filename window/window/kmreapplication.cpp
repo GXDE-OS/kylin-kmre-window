@@ -26,7 +26,6 @@
 
 #include <signal.h>
 #include <syslog.h>
-#include <QTextCodec>
 #include <QLocale>
 #include <QDir>
 #include <QLibraryInfo>

@@ -130,7 +130,7 @@ void AppItem::unhighlight()
     repaint();
 }
 
-void AppItem::enterEvent(QEvent *event)
+void AppItem::enterEvent(QEnterEvent *event)
 {
     emit enter();
 
@@ -145,7 +145,7 @@ void AppItem::paintEvent(QPaintEvent *event)
 
         QPainterPath path;
         path.addRoundedRect(QRectF(rect()), 6, 6);
-        painter.fillPath(path, getBlendColor(window()->palette().color(QPalette::Background), QColor(0, 0, 0, 0.05 * 255)));
+        painter.fillPath(path, getBlendColor(window()->palette().color(QPalette::Window), QColor(0, 0, 0, 0.05 * 255)));
     }
 
     QWidget::paintEvent(event);

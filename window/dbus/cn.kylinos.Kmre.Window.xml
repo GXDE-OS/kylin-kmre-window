@@ -52,7 +52,7 @@
       <arg name="type" type="i"/>
       <arg name="metas" type="a(ss)"/>
       <arg name="totalNum" type="i"/>
-      <annotation name="org.qtproject.QtDBus.QtTypeName.In1" value="AndroidMetaList"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out1" value="AndroidMetaList"/>
     </signal>
     <signal name="postResponseInfo">
       <arg name="id" type="i"/>

@@ -57,7 +57,7 @@ RemoveGameWidget::RemoveGameWidget(QWidget *parent)
     layout->addWidget(line);
     layout->addWidget(pkgName);
     layout->addStretch();
-//    layout->setMargin(0);
+//    layout->setContentsMargins(0, 0, 0, 0);
     titlebar->setLayout(layout);
 
     m_view = new GameListView;
@@ -72,7 +72,7 @@ RemoveGameWidget::RemoveGameWidget(QWidget *parent)
     m_scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     m_vLayout->setSpacing(0);
-    m_vLayout->setMargin(0);
+    m_vLayout->setContentsMargins(0, 0, 0, 0);
     m_vLayout->addWidget(titlebar);
     m_vLayout->addWidget(m_scrollArea);
     centralWidget->setLayout(m_vLayout);

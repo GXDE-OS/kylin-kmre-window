@@ -1124,7 +1124,7 @@ void KmreWindow::showEvent(QShowEvent *event)
     }
 }
 
-bool KmreWindow::nativeEvent(const QByteArray &eventType, void *message, long *)
+bool KmreWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result)
 {
     Q_UNUSED(eventType);
     xcb_generic_event_t *event = static_cast<xcb_generic_event_t *>(message);

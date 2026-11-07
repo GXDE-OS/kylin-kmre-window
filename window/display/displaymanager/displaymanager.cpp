@@ -45,7 +45,7 @@
 #include "sessionsettings.h"
 
 #include <syslog.h>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QApplication>
 #include <QGSettings>
 
@@ -98,21 +98,19 @@ void DisplayManager::saveWindowGeometry()
 
 QRect DisplayManager::getScreenSize()
 {
-    QDesktopWidget* desktop = QApplication::desktop();
-    return desktop->screenGeometry(mMainWindow);
+    return mMainWindow->screen()->geometry();
 }
 
 QRect DisplayManager::getAvailableScreenSize()
 {
-    QDesktopWidget* desktop = QApplication::desktop();
-    return desktop->availableGeometry(mMainWindow);
+    return mMainWindow->screen()->availableGeometry();
 }
 
 void DisplayManager::getScreenInfo(QRect &allScreenSize, QRect &availableSize)
 {
-    QDesktopWidget* desktop = QApplication::desktop();
-    allScreenSize = QRect(0, 0, desktop->width(), desktop->height());
-    availableSize = desktop->availableGeometry();
+    QScreen *screen = QGuiApplication::primaryScreen();
+    allScreenSize = screen ? screen->virtualGeometry() : QRect();
+    availableSize = screen ? screen->availableGeometry() : QRect();
 }
 
 QSize DisplayManager::getMainWidgetSize() 
@@ -160,7 +158,7 @@ void DisplayManager::initUI()
     mHLayout->setAlignment(Qt::AlignLeft);
 
     mTitleLayout->setSpacing(0);
-    mTitleLayout->setMargin(0);
+    mTitleLayout->setContentsMargins(0, 0, 0, 0);
     mTitleLayout->addWidget(mTitleBar);
     mTitleLayout->addWidget(mTitleBarJoystick);
 
@@ -246,9 +244,9 @@ void DisplayManager::enterFullscreen()
 
     saveWindowGeometry();
 
-    QDesktopWidget* desktop = QApplication::desktop();
-    if (desktop) {
-        QRect screenRect = desktop->screenGeometry(mMainWindow);
+    QScreen *screen = mMainWindow->screen();
+    if (screen) {
+        QRect screenRect = screen->geometry();
         if (screenRect.width() > 0 && screenRect.height() > 0) {
             mMainWindow->setMaximumSize(screenRect.width(), screenRect.height());
         } else {
@@ -1003,10 +1001,9 @@ void DisplayManager::getDisplaySizeForNormalScreen(int innerWidth, int innerHeig
     QSize screenSize = QSize(0, 0);
     int screenOrientation = Qt::LandscapeOrientation; //默认显示器横屏
 
-    QDesktopWidget* desktop = QApplication::desktop();
-    if (desktop) {
-        //screenSize = desktop->screenGeometry(mMainWindow).size();//
-        screenSize = desktop->availableGeometry(mMainWindow).size();
+    QScreen *screen = mMainWindow->screen();
+    if (screen) {
+        screenSize = screen->availableGeometry().size();
         if (screenSize.width() < screenSize.height()) {
             screenOrientation = Qt::PortraitOrientation;//显示器竖屏
         }
@@ -1206,13 +1203,12 @@ QSize DisplayManager::getMinWindowSize()
 
 QSize DisplayManager::getMaxScreenSize()
 {
-    QDesktopWidget* desktop = ((QApplication*)QApplication::instance())->desktop();
-    int screenNum = desktop->screenNumber(mMainWindow);//Screen holding most of this
-    if (screenNum < 0) {
-        syslog(LOG_CRIT, "[DisplayManager] getMaxScreenSize, Can't get screen number!");
+    QScreen *screen = mMainWindow->screen();
+    if (!screen) {
+        syslog(LOG_CRIT, "[DisplayManager] getMaxScreenSize, Can't get screen!");
         return QSize(0, 0);
     }
-    QRect screenGeo = desktop->screenGeometry(screenNum);
+    QRect screenGeo = screen->geometry();
 
     //处理panel的高度，在wayland下，availableGeometry.height()为整个屏幕的高度，而不是可用高度
     int panelposition = 0;

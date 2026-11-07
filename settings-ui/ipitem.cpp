@@ -26,7 +26,8 @@
 #include <QValidator>
 #include <QEvent>
 #include <QKeyEvent>
-#include <QRegExp>
+#include <QRegularExpression>
+#include <QRegularExpressionValidator>
 #include <QGSettings>
 
 IpItem::IpItem(QFrame *parent)
@@ -82,7 +83,7 @@ IpItem::IpItem(QFrame *parent)
 //    connect(m_ipEdit4, SIGNAL(textChanged(QString)), this, SLOT(textChanged(QString)));
 
 //    QRegExp regExp("(2[0-5]{2}|2[0-4][0-9]|1?[0-9]{1,2})");
-//    QRegExpValidator *validator = new QRegExpValidator(regExp, this);
+//    QRegularExpressionValidator *validator = new QRegularExpressionValidator(regExp, this);
 //    m_ipEdit1->setValidator(validator);
 //    m_ipEdit2->setValidator(validator);
 //    m_ipEdit3->setValidator(validator);
@@ -103,8 +104,8 @@ IpItem::IpItem(QFrame *parent)
 
     QFrame *frame = new QFrame;
     frame->setObjectName("ipFrame");
-    QRegExp regExp("((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[\\.]){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])");
-    QRegExpValidator *validator = new QRegExpValidator(regExp, this);
+    QRegularExpression regExp("((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[\\.]){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])");
+    QRegularExpressionValidator *validator = new QRegularExpressionValidator(regExp, this);
     m_ipEdit = new QLineEdit;
     m_ipEdit->setFixedSize(220,36);
     m_ipEdit->setObjectName("ipEdit");
@@ -116,7 +117,7 @@ IpItem::IpItem(QFrame *parent)
 //    m_ipEdit->setStyleSheet("QLineEdit{border-radius:6px;}");
 
     QHBoxLayout *layout = new QHBoxLayout(frame);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(m_titleLabel);
     layout->addSpacing(30);
@@ -147,7 +148,7 @@ void IpItem::setTitle(const QString &title)
     QFontMetrics fm(ft);
     QString elided_text = fm.elidedText(title, Qt::ElideRight, 150);
     m_titleLabel->setText(elided_text);
-    if (fm.width(title) > m_titleLabel->width()) {
+    if (fm.horizontalAdvance(title) > m_titleLabel->width()) {
         m_titleLabel->setToolTip(title);
     }
     const QByteArray styleid("org.ukui.style");
@@ -159,7 +160,7 @@ void IpItem::setTitle(const QString &title)
                 QFontMetrics fm(ft);
                 QString elided_text1 = fm.elidedText(title, Qt::ElideRight, 150);
                 m_titleLabel->setText(elided_text1);
-                if (fm.width(title) > m_titleLabel->width()) {
+                if (fm.horizontalAdvance(title) > m_titleLabel->width()) {
                     m_titleLabel->setToolTip(title);
                 }
             }
@@ -210,8 +211,8 @@ QString IpItem::getIP() const
 
 void IpItem::setIP(const QString &ip)
 {
-    QRegExp regExp("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)");
-    if (!regExp.exactMatch(ip)) {
+    QRegularExpression regExp("^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)$");
+    if (!regExp.match(ip).hasMatch()) {
         return;
     }
 

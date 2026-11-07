@@ -99,7 +99,7 @@ SettingsPanel::SettingsPanel(KmreWindow* window)
     });
 
     mLayout = new QGridLayout(this);
-    mLayout->setMargin(5);
+    mLayout->setContentsMargins(5, 5, 5, 5);
     mLayout->setSpacing(5);
     mLayout->addWidget(mAddSingleKeyBtn, 0, 0, 2, 6, Qt::AlignRight);
     mLayout->addWidget(mAddSteelingWheelBtn, 0, 6, 2, 6, Qt::AlignRight);

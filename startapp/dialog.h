@@ -21,7 +21,6 @@
 #define DIALOG_H
 
 #include <QDialog>
-#include <QDesktopWidget>
 #include <QPropertyAnimation>
 #include <QPoint>
 #include <QTimer>
@@ -80,7 +79,6 @@ signals:
 
 private:
     Ui::Dialog *ui;
-    QDesktopWidget desktop;
     QPropertyAnimation* animation;
     QString m_tipMSg;
     QString m_additionMsg;

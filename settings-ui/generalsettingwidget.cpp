@@ -34,7 +34,8 @@
 #include <QMessageBox>
 #include <QDBusInterface>
 #include <QDBusReply>
-#include <QCameraInfo>
+#include <QMediaDevices>
+#include <QCameraDevice>
 #include <QTimer>
 #include <QLineEdit>
 #include <QFile>
@@ -133,7 +134,7 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
     QLabel* DockerNetworkModeLbl = new QLabel;
     DockerNetworkModeLbl->setFixedWidth(150);
     DockerNetworkModeLbl->setText(fm.elidedText(tr("mode"), Qt::ElideRight, 150));
-    if (fm.width(tr("mode")) > DockerNetworkModeLbl->width()) {
+    if (fm.horizontalAdvance(tr("mode")) > DockerNetworkModeLbl->width()) {
         DockerNetworkModeLbl->setToolTip(tr("mode"));
     }
 
@@ -156,7 +157,7 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
     QLabel* DockerNetworkDeviceLbl = new QLabel;
     DockerNetworkDeviceLbl->setFixedWidth(150);
     DockerNetworkDeviceLbl->setText(fm.elidedText(tr("device"), Qt::ElideRight, 150));
-    if (fm.width(tr("device")) > DockerNetworkDeviceLbl->width()) {
+    if (fm.horizontalAdvance(tr("device")) > DockerNetworkDeviceLbl->width()) {
         DockerNetworkDeviceLbl->setToolTip(tr("device"));
     }
 
@@ -182,18 +183,18 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
     m_dnsline->setFixedWidth(250);
     m_dnsline->setText(m_pref->m_dns);
     m_dnsline->setVisible(!defaultdns);
-    QRegExp regExp("((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[\\.]){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])([\\,])((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[\\.]){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])");
-    QRegExpValidator *dnsvalidator = new QRegExpValidator(regExp, this);
+    QRegularExpression regExp("((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[\\.]){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])([\\,])((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[\\.]){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])");
+    QRegularExpressionValidator *dnsvalidator = new QRegularExpressionValidator(regExp, this);
     m_dnsline->setValidator(dnsvalidator);
     QHBoxLayout *netmasklayout = new QHBoxLayout;
-    netmasklayout->setMargin(0);
+    netmasklayout->setContentsMargins(0, 0, 0, 0);
     netmasklayout->setSpacing(0);
     netmasklayout->addWidget(m_netmaskItem);
     netmasklayout->addSpacing(32);
     netmasklayout->addWidget(mBridgeModeSaveBtn);
     netmasklayout->addStretch();
     QHBoxLayout *dnslayout = new QHBoxLayout;
-//    dnslayout->setMargin(0);
+//    dnslayout->setContentsMargins(0, 0, 0, 0);
 //    dnslayout->setSpacing(0);
     dnslayout->addWidget(m_dnstitle);
     dnslayout->addSpacing(30);
@@ -203,7 +204,7 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
     dnslayout->addStretch();
 
     QVBoxLayout *bridgeModelayout = new QVBoxLayout;
-    bridgeModelayout->setMargin(0);
+    bridgeModelayout->setContentsMargins(0, 0, 0, 0);
     bridgeModelayout->setSpacing(0);
     bridgeModelayout->addWidget(m_ipItem);
     bridgeModelayout->addSpacing(16);
@@ -214,7 +215,7 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
     mBridgeModeWidget->setLayout(bridgeModelayout);
 
     QVBoxLayout *dockerLayout = new QVBoxLayout;
-    dockerLayout->setMargin(0);
+    dockerLayout->setContentsMargins(0, 0, 0, 0);
     dockerLayout->setSpacing(0);
     dockerLayout->addWidget(m_dockertitle);
     dockerLayout->addSpacing(8);
@@ -239,7 +240,7 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
     shortcutlayout1->addWidget(shortcutline1);
     shortcutlayout1->addStretch();
     QVBoxLayout *shortcutlayout = new QVBoxLayout;
-    shortcutlayout->setMargin(0);
+    shortcutlayout->setContentsMargins(0, 0, 0, 0);
     shortcutlayout->setSpacing(0);
     shortcutlayout->addWidget(Shortcuttitle);
     shortcutlayout->addSpacing(8);
@@ -258,7 +259,7 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
     m_version->setFixedWidth(200);
     QString elided_text3 = fm.elidedText(tr("Version: ")  + getKmreVersion(), Qt::ElideRight, 170);
     m_version->setText(elided_text3);
-    if (fm.width(tr("Version: ")  + getKmreVersion()) > m_version->width()) {
+    if (fm.horizontalAdvance(tr("Version: ")  + getKmreVersion()) > m_version->width()) {
         m_version->setToolTip(tr("Version: ")  + getKmreVersion());
     }
 //    m_version->setText(tr("Version: ") + getKmreVersion());
@@ -268,7 +269,7 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
     m_logBtn->setFixedWidth(120);
     m_logBtn->setText(tr("Log"));
     QHBoxLayout *aboutlayout1 = new QHBoxLayout;
-    aboutlayout1->setMargin(0);
+    aboutlayout1->setContentsMargins(0, 0, 0, 0);
     aboutlayout1->setSpacing(0);
     aboutlayout1->addWidget(aboutversion);
     aboutlayout1->addSpacing(80);
@@ -278,14 +279,14 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
     aboutlayout1->addWidget(m_logBtn);
     aboutlayout1->addStretch();
     QVBoxLayout *aboutlayout = new QVBoxLayout;
-    aboutlayout->setMargin(0);
+    aboutlayout->setContentsMargins(0, 0, 0, 0);
     aboutlayout->setSpacing(0);
     aboutlayout->addWidget(Abouttitle);
     aboutlayout->addSpacing(16);
     aboutlayout->addLayout(aboutlayout1);
 
     QVBoxLayout *mainlayout = new QVBoxLayout;
-    mainlayout->setMargin(0);
+    mainlayout->setContentsMargins(0, 0, 0, 0);
     mainlayout->setSpacing(0);
 //    mainlayout->addWidget(m_title);
     mainlayout->addWidget(AutoCheckbox);
@@ -347,7 +348,7 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
                 QFontMetrics fm(ft);
                 QString elided_text3 = fm.elidedText(tr("Version: ")  + getKmreVersion(), Qt::ElideRight, 170);
                 m_version->setText(elided_text3);
-                if (fm.width(tr("Version: ")  + getKmreVersion()) > m_version->width()) {
+                if (fm.horizontalAdvance(tr("Version: ")  + getKmreVersion()) > m_version->width()) {
                     m_version->setToolTip(tr("Version: ")  + getKmreVersion());
                 }
             }
@@ -406,11 +407,11 @@ void GeneralSettingWidget::updateCameraDevices()
     m_cameraComboBox->setCurrentText(nocamera);
     m_cameraComboBox->setEnabled(false);
 
-    foreach (const QCameraInfo &cameraInfo, QCameraInfo::availableCameras()) {
+    foreach (const QCameraDevice &cameraInfo, QMediaDevices::videoInputs()) {
         QString nameTag;
-        nameTag = QString("%1 (%2)").arg(cameraInfo.description()).arg(cameraInfo.deviceName());
+        nameTag = QString("%1 (%2)").arg(cameraInfo.description()).arg(cameraInfo.id());
 
-        m_cameraMap[nameTag] = cameraInfo.deviceName();
+        m_cameraMap[nameTag] = cameraInfo.id();
         m_cameraComboBox->addItem(nameTag);
 
         if (!m_pref->m_cameraDeviceName.isEmpty() && !m_pref->m_cameraDeviceName.isNull()) {

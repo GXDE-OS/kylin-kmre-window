@@ -25,7 +25,6 @@
 #include <QtSingleApplication>
 #include <QObject>
 #include <QDir>
-#include <QTextCodec>
 #include <QTranslator>
 #include <QLocale>
 #include <QLibraryInfo>
@@ -80,8 +79,6 @@ int main(int argc, char *argv[])
     //Attention: 以下配置不能放在wayland环境下配置，否则导致配置界面显示异常，原因未知
     // 适配4K屏
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
