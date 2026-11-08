@@ -105,6 +105,12 @@ bool UKUIDecorationManager::setCornerRadius(QWindow *windowHandle, int topleft, 
 
 UKUIDecorationManager::UKUIDecorationManager()
 {
+    /* 仅在 wayland 平台下初始化；X11 等平台下不初始化，
+     * 此时 supportUKUIDecoration() 返回 false，所有接口均为空操作 */
+    if (!qGuiApp || qGuiApp->platformName() != QLatin1String("wayland")) {
+        return;
+    }
+
     /* Get the wl_display owned by the Qt Wayland platform integration. */
     if (qGuiApp && qGuiApp->platformNativeInterface()) {
         const QByteArray resources[] = {
