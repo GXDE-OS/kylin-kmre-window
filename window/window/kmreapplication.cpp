@@ -23,6 +23,7 @@
 #include "kmreenv.h"
 #include "signalevent.h"
 #include "sessionsettings.h"
+#include "themesettings.h"
 
 #include <signal.h>
 #include <syslog.h>
@@ -98,6 +99,8 @@ bool KmreApplication::init()
     if (SessionSettings::getInstance().windowUsePlatformWayland()) {
         PlasmaShellManager::getInstance();//避免在wayland下窗口第一次设置置顶无效
     }
+    // 在任何界面创建前，先完成图标主题修正和系统深浅色模式跟随
+    kmre::ThemeSettings::getInstance()->initialize();
     initTranslator();
     KmreEnv::envCheck();
     initGlobalSettings();

@@ -19,6 +19,7 @@
 
 #include "autohidewidget.h"
 #include "common.h"
+#include "themesettings.h"
 #include "utils.h"
 #include "kmreenv.h"
 #include "preferences.h"
@@ -108,7 +109,7 @@ void AutohideWidget::initButtons()
     m_backBtn->setToolTip(tr("Back"));
     m_backBtn->setProperty("useIconHighlightEffect", 0x2);
     m_backBtn->setProperty("isWindowButton", 0x01);
-    m_backBtn->setIcon(QIcon::fromTheme("go-previous-symbolic"));
+    m_backBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("go-previous-symbolic"));
 
     m_gameKeyBtn = new QPushButton;
     m_gameKeyBtn->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
@@ -116,7 +117,7 @@ void AutohideWidget::initButtons()
     m_gameKeyBtn->setToolTip(tr("Game Key"));
     m_gameKeyBtn->setProperty("useIconHighlightEffect", 0x2);
     m_gameKeyBtn->setProperty("isWindowButton", 0x01);
-    m_gameKeyBtn->setIcon(QIcon::fromTheme("document-properties-symbolic"));
+    m_gameKeyBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("document-properties-symbolic"));
 
     m_unFullscreenBtn = new QPushButton;
     m_unFullscreenBtn->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
@@ -124,7 +125,7 @@ void AutohideWidget::initButtons()
     m_unFullscreenBtn->setToolTip(tr("UnFullscreen"));
     m_unFullscreenBtn->setProperty("useIconHighlightEffect", 0x2);
     m_unFullscreenBtn->setProperty("isWindowButton", 0x01);
-    m_unFullscreenBtn->setIcon(QIcon::fromTheme("view-restore-symbolic"));
+    m_unFullscreenBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("view-restore-symbolic"));
 
 //    m_minBtn = new QPushButton;
 //    m_minBtn->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
@@ -140,7 +141,7 @@ void AutohideWidget::initButtons()
     m_closeBtn->setToolTip(tr("Close"));
     m_closeBtn->setProperty("isWindowButton", 0x02);
     m_closeBtn->setProperty("useIconHighlightEffect", 0x08);
-    m_closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    m_closeBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("window-close-symbolic"));
 
     m_centralLayout->addWidget(m_backBtn);
     m_centralLayout->addStretch();
@@ -157,8 +158,19 @@ void AutohideWidget::initButtons()
     layout()->addWidget(w);
 }
 
+void AutohideWidget::updateIcons()
+{
+    m_backBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("go-previous-symbolic"));
+    m_gameKeyBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("document-properties-symbolic"));
+    m_unFullscreenBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("view-restore-symbolic"));
+    m_closeBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("window-close-symbolic"));
+}
+
 void AutohideWidget::initConnections()
 {
+    // 系统深浅色模式切换时，重新加载图标以保证对比度
+    connect(kmre::ThemeSettings::getInstance(), &kmre::ThemeSettings::darkThemeChanged,
+            this, &AutohideWidget::updateIcons);
     connect(m_backBtn, &QPushButton::clicked, this, &AutohideWidget::sigBack);
     connect(m_gameKeyBtn, &QPushButton::clicked, this, [=] () {
         emit this->requestSettings(QPoint(m_gameKeyBtn->geometry().center()), true);

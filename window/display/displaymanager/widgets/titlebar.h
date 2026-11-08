@@ -41,6 +41,7 @@ public:
     void setIcon(const QString &iconName);
     int getMenuBtnX();
     void updateUi();
+    void updateIcons();
     void updateTitleName();
     void updateTitleName(const QString &titleName, bool force = false);
     void updateTitle(int width);

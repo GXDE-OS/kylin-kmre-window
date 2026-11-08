@@ -73,23 +73,31 @@ int main(int argc, char *argv[])
         qputenv("QT_QPA_PLATFORMTHEME", "ukui");
     }
 
+    // 仅在 Wayland 会话下使用 wayland 平台插件；在 X11 会话下强制 wayland
+    // 会因 wl_display 连接失败导致程序直接崩溃（指定 QT_QPA_PLATFORM 后不再回退）
 #ifdef UKUI_WAYLAND
-    qputenv("QT_QPA_PLATFORM", "wayland");
+    const QString xdgSessionType = qEnvironmentVariable("XDG_SESSION_TYPE");
+    const bool useWaylandPlatform = (xdgSessionType == "wayland");
 #else
-    //Attention: 以下配置不能放在wayland环境下配置，否则导致配置界面显示异常，原因未知
-    // 适配4K屏
+    const bool useWaylandPlatform = false;
+#endif
+    if (useWaylandPlatform) {
+        qputenv("QT_QPA_PLATFORM", "wayland");
+    } else {
+        //Attention: 以下配置不能放在wayland环境下配置，否则导致配置界面显示异常，原因未知
+        // 适配4K屏
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
 #endif
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-    QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+        QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 #endif
 
 #if QT_VERSION >= 0x040400
-    // Enable icons in menus
-    QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
+        // Enable icons in menus
+        QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
 #endif
-#endif
+    }
 
     QString id = QString("kylin-kmre-settings" + QLatin1String(getenv("DISPLAY")));
     QtSingleApplication a(id, argc, argv);

@@ -52,10 +52,11 @@ public slots:
 	void deactivate();
 	void setAutoHide(bool b);
     void setAnimated(bool b) { m_useAnimation = b; };
-	void setMargin(int margin) { spacing = margin; };
+    void setMargin(int margin) { spacing = margin; };
     void setPercWidth(int s) { m_percWidth = s;}
     void setActivationArea(Activation m) { m_activationArea = m; }
 	void setHideDelay(int ms);
+    void updateIcons();
 
 signals:
     void sigBack();

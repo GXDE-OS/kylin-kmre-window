@@ -19,6 +19,7 @@
 
 #include "titlebar.h"
 #include "common.h"
+#include "themesettings.h"
 #include "gamekey/gamekeymanager.h"
 #include "gamekey/joystickmanager.h"
 #include "displaymanager.h"
@@ -134,7 +135,7 @@ void TitleBar::initLeftContent()
     m_backBtn->setToolTip(tr("Back"));
     m_backBtn->setProperty("useIconHighlightEffect", 0x2);
     m_backBtn->setProperty("isWindowButton", 0x01);
-    m_backBtn->setIcon(QIcon::fromTheme("go-previous-symbolic"));
+    m_backBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("go-previous-symbolic"));
     m_backBtn->setFocusPolicy(Qt::NoFocus);
     m_backBtn->setVisible(false);
 
@@ -245,14 +246,14 @@ void TitleBar::initRightContent()
     m_screenshotBtn->setProperty("isWindowButton", 0x01);
 
     // /usr/share/icons/ukui-icon-theme-default/scalable/actions/
-    m_menuBtn->setIcon(QIcon::fromTheme("open-menu-symbolic"));
-    m_fullscreenBtn->setIcon(QIcon::fromTheme("view-fullscreen-symbolic"));
-    m_minBtn->setIcon(QIcon::fromTheme("window-minimize-symbolic"));
-    m_closeBtn->setIcon(QIcon::fromTheme("window-close-symbolic"));
+    m_menuBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("open-menu-symbolic"));
+    m_fullscreenBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("view-fullscreen-symbolic"));
+    m_minBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("window-minimize-symbolic"));
+    m_closeBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("window-close-symbolic"));
     //m_topBtn->setIcon(QIcon::fromTheme("ukui-fixed-symbolic"));
-    m_topBtn->setIcon(QIcon::fromTheme("window-pin"));
-    m_cancletopBtn->setIcon(QIcon::fromTheme("window-unpin"));
-    m_screenshotBtn->setIcon(QIcon::fromTheme("screenshot-app-symbolic"));
+    m_topBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("window-pin"));
+    m_cancletopBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("window-unpin"));
+    m_screenshotBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("screenshot-app-symbolic", QColor(), "camera-photo-symbolic"));
 
     m_menuBtn->setFocusPolicy(Qt::NoFocus);
     m_fullscreenBtn->setFocusPolicy(Qt::NoFocus);
@@ -413,8 +414,23 @@ void TitleBar::updateUi()
     m_screenshotBtn->setVisible(feature->isEnabled(pkgName, "screen_shot"));
 }
 
+void TitleBar::updateIcons()
+{
+    m_backBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("go-previous-symbolic"));
+    m_menuBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("open-menu-symbolic"));
+    m_fullscreenBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("view-fullscreen-symbolic"));
+    m_minBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("window-minimize-symbolic"));
+    m_closeBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("window-close-symbolic"));
+    m_topBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("window-pin"));
+    m_cancletopBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("window-unpin"));
+    m_screenshotBtn->setIcon(kmre::ThemeSettings::loadSymbolicIcon("screenshot-app-symbolic", QColor(), "camera-photo-symbolic"));
+}
+
 void TitleBar::initConnect()
 {
+    // 系统深浅色模式切换时，重新加载图标以保证对比度
+    connect(kmre::ThemeSettings::getInstance(), &kmre::ThemeSettings::darkThemeChanged,
+            this, &TitleBar::updateIcons);
     connect(m_backBtn, &QPushButton::clicked, [this](){emit sigBack();});
     connect(m_fullscreenBtn, &QPushButton::clicked, [this](){emit sigFullscreen();});
     connect(m_closeBtn, &QPushButton::clicked, [this](){emit sigClose();});
